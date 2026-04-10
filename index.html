@@ -259,7 +259,74 @@
   }
 
   /* ── Mobile responsive ── */
-  @media (max-width: 640px) {
+  /* ── SHAP modal ─────────────────────────────────────── */
+  .shap-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.7); z-index: 900;
+    align-items: flex-end; justify-content: center;
+  }
+  .shap-overlay.open { display: flex; }
+  .shap-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 20px 20px 0 0;
+    width: 100%; max-width: 540px; padding: 28px 24px 40px;
+    max-height: 88vh; overflow-y: auto; box-sizing: border-box;
+  }
+  .shap-hd {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; margin-bottom: 16px;
+  }
+  .shap-title { font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 18px; color: var(--text); }
+  .shap-sub { font-size: 11px; color: var(--muted); margin-top: 3px;
+    font-weight: 300; }
+  .shap-close {
+    background: none; border: 1px solid var(--border);
+    border-radius: 50%; width: 26px; height: 26px;
+    cursor: pointer; color: var(--muted); font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-left: 12px;
+  }
+  .shap-base {
+    font-size: 10px; color: var(--muted); font-weight: 300;
+    margin-bottom: 14px; opacity: .7;
+  }
+  .shap-axis {
+    display: flex; justify-content: space-between;
+    font-size: 9px; color: var(--muted); font-weight: 300;
+    margin-bottom: 8px; opacity: .7;
+  }
+  .shap-row { display: flex; align-items: center; margin-bottom: 9px; gap: 6px; }
+  .shap-lbl {
+    font-size: 11px; color: var(--muted); font-weight: 300;
+    width: 160px; flex-shrink: 0; text-align: right;
+    padding-right: 8px; line-height: 1.3;
+  }
+  .shap-bars {
+    flex: 1; height: 16px; position: relative; display: flex; align-items: center;
+  }
+  .shap-mid {
+    position: absolute; left: 50%; top: 0; bottom: 0;
+    width: 1px; background: var(--border);
+  }
+  .shap-bar {
+    position: absolute; height: 10px; border-radius: 2px; max-width: 48%;
+  }
+  .shap-bar.p { background: var(--accent2); left: 50%; }
+  .shap-bar.n { background: var(--accent);  right: 50%; }
+  .shap-pp {
+    font-size: 10px; font-variant-numeric: tabular-nums;
+    width: 46px; text-align: right; flex-shrink: 0;
+  }
+  .shap-note {
+    font-size: 9px; color: var(--muted); opacity: .55;
+    margin-top: 18px; font-weight: 300; line-height: 1.5;
+  }
+  @media (min-width: 640px) {
+    .shap-card { border-radius: 16px; margin-bottom: 48px; }
+  }
+
+@media (max-width: 640px) {
     .container { padding: 24px 14px; }
     .site-header h1 { font-size: 22px; }
     .stats-row { gap: 16px; }
@@ -320,7 +387,7 @@
 
   <header class="site-header">
     <h1>ATP Tennis Predictions</h1>
-    <p class="subtitle">XGBoost · 126 features · April 10, 2026 · Generated 2026-04-10 12:14 UTC</p>
+    <p class="subtitle">XGBoost · 126 features · April 10, 2026 · Generated 2026-04-10 13:56 UTC</p>
   </header>
 
   <div class="stats-row">
@@ -350,7 +417,7 @@
     <span class="surface-label surface-Clay">clay</span>
   </div>
   <div class="match-grid">
-    <div class="match-card">
+    <div class="match-card" onclick="openShapModal(this)" style="cursor:pointer" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 44.2, &quot;p1&quot;: &quot;Valentin Vacherot&quot;, &quot;p2&quot;: &quot;Alex de Minaur&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.5618, &quot;pp&quot;: -13.9}, {&quot;label&quot;: &quot;Minaur rest days&quot;, &quot;shap&quot;: 0.4589, &quot;pp&quot;: 11.3}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.3087, &quot;pp&quot;: 7.6}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.2857, &quot;pp&quot;: -7.0}, {&quot;label&quot;: &quot;Minaur games last 14d&quot;, &quot;shap&quot;: 0.1479, &quot;pp&quot;: 3.6}, {&quot;label&quot;: &quot;Vacherot rest days&quot;, &quot;shap&quot;: -0.1467, &quot;pp&quot;: -3.6}, {&quot;label&quot;: &quot;Minaur sets last 14d&quot;, &quot;shap&quot;: 0.1085, &quot;pp&quot;: 2.7}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: -0.1009, &quot;pp&quot;: -2.5}]}">
     <div class="match-round">Quarterfinals</div>
       <div class="match-players">
         <div class="player-block">
@@ -368,7 +435,7 @@
         <div class="prob-p2-fill" style="width:76.3%"></div>
       </div>
     </div>
-    <div class="match-card">
+    <div class="match-card" onclick="openShapModal(this)" style="cursor:pointer" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 24.2, &quot;p1&quot;: &quot;Felix Auger-Aliassime&quot;, &quot;p2&quot;: &quot;Jannik Sinner&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.6568, &quot;pp&quot;: -12.0}, {&quot;label&quot;: &quot;Sinner rest days&quot;, &quot;shap&quot;: 0.5521, &quot;pp&quot;: 10.1}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.4775, &quot;pp&quot;: -8.8}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.3012, &quot;pp&quot;: -5.5}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.3007, &quot;pp&quot;: 5.5}, {&quot;label&quot;: &quot;Auger-Aliassime rest days&quot;, &quot;shap&quot;: -0.1654, &quot;pp&quot;: -3.0}, {&quot;label&quot;: &quot;Auger-Aliassime games last 14d&quot;, &quot;shap&quot;: -0.1605, &quot;pp&quot;: -2.9}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.132, &quot;pp&quot;: 2.4}]}">
     <div class="match-round">Quarterfinals</div>
       <div class="match-players">
         <div class="player-block">
@@ -386,7 +453,7 @@
         <div class="prob-p2-fill" style="width:75.8%"></div>
       </div>
     </div>
-    <div class="match-card">
+    <div class="match-card" onclick="openShapModal(this)" style="cursor:pointer" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 72.2, &quot;p1&quot;: &quot;Carlos Alcaraz&quot;, &quot;p2&quot;: &quot;Alexander Bublik&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Bublik rest days&quot;, &quot;shap&quot;: 0.4976, &quot;pp&quot;: 10.0}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.4934, &quot;pp&quot;: 9.9}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.4431, &quot;pp&quot;: 8.9}, {&quot;label&quot;: &quot;Alcaraz rest days&quot;, &quot;shap&quot;: -0.4295, &quot;pp&quot;: -8.6}, {&quot;label&quot;: &quot;Alcaraz games last 14d&quot;, &quot;shap&quot;: -0.2643, &quot;pp&quot;: -5.3}, {&quot;label&quot;: &quot;Bublik games last 14d&quot;, &quot;shap&quot;: 0.1368, &quot;pp&quot;: 2.7}, {&quot;label&quot;: &quot;Alcaraz sets last 14d&quot;, &quot;shap&quot;: -0.1059, &quot;pp&quot;: -2.1}, {&quot;label&quot;: &quot;Bublik sets last 14d&quot;, &quot;shap&quot;: 0.0935, &quot;pp&quot;: 1.9}]}">
     <div class="match-round">Quarterfinals</div>
       <div class="match-players">
         <div class="player-block">
@@ -527,7 +594,7 @@
     3 predictions awaiting results.
   </p>
 
-  <p class="section-label" style="margin-top:48px">Kalshi Edges<span style="color:var(--muted);font-size:11px;font-weight:300"> — 6 markets scanned · 2026-04-10 12:03 UTC</span></p>
+  <p class="section-label" style="margin-top:48px">Kalshi Edges<span style="color:var(--muted);font-size:11px;font-weight:300"> — 6 markets scanned · 2026-04-10 13:07 UTC</span></p>
   <div class="history-wrap">
     <table>
       <thead>
@@ -538,35 +605,34 @@
       </thead>
       <tbody>
     <tr>
-      <td>Alexander Bublik vs Carlos Alcaraz</td>
-      <td><span class="kalshi-yes">YES</span></td>
-      <td style="font-variant-numeric:tabular-nums">27.8%</td>
-      <td style="font-variant-numeric:tabular-nums">9¢</td>
-      <td style="color:var(--accent2);font-variant-numeric:tabular-nums">+18.2pp</td>
-      <td style="font-variant-numeric:tabular-nums">1.0¢</td>
-      <td style="font-variant-numeric:tabular-nums">$1,213</td>
-    </tr>
-    <tr>
-      <td>Jannik Sinner vs Felix Auger-Aliassime</td>
+      <td>Jannik Sinner vs Jannik Sinner</td>
       <td><span class="kalshi-no">NO</span></td>
-      <td style="font-variant-numeric:tabular-nums">24.2%</td>
-      <td style="font-variant-numeric:tabular-nums">13¢</td>
-      <td style="color:var(--accent2);font-variant-numeric:tabular-nums">+10.4pp</td>
-      <td style="font-variant-numeric:tabular-nums">1.0¢</td>
-      <td style="font-variant-numeric:tabular-nums">$2,528</td>
+      <td style="font-variant-numeric:tabular-nums">75.8%</td>
+      <td style="font-variant-numeric:tabular-nums">4¢</td>
+      <td style="color:var(--accent2);font-variant-numeric:tabular-nums">+71.0pp</td>
+      <td style="font-variant-numeric:tabular-nums">1.05¢</td>
+      <td style="font-variant-numeric:tabular-nums">$6,246</td>
     </tr>
     <tr>
-      <td>Valentin Vacherot vs Alex de Minaur</td>
+      <td>Alexander Bublik vs Alexander Bublik</td>
+      <td><span class="kalshi-yes">YES</span></td>
+      <td style="font-variant-numeric:tabular-nums">72.2%</td>
+      <td style="font-variant-numeric:tabular-nums">8¢</td>
+      <td style="color:var(--accent2);font-variant-numeric:tabular-nums">+63.2pp</td>
+      <td style="font-variant-numeric:tabular-nums">11.76¢ <span class="kalshi-warn">thin</span></td>
+      <td style="font-variant-numeric:tabular-nums">$1,567</td>
+    </tr>
+    <tr>
+      <td>Valentin Vacherot vs Valentin Vacherot</td>
       <td><span class="kalshi-no">NO</span></td>
       <td style="font-variant-numeric:tabular-nums">76.3%</td>
       <td style="font-variant-numeric:tabular-nums">66¢</td>
-      <td style="color:var(--accent2);font-variant-numeric:tabular-nums">+8.7pp</td>
-      <td style="font-variant-numeric:tabular-nums">1.0¢</td>
-      <td style="font-variant-numeric:tabular-nums">$410</td>
+      <td style="color:var(--accent2);font-variant-numeric:tabular-nums">+8.3pp</td>
+      <td style="font-variant-numeric:tabular-nums">2.99¢</td>
+      <td style="font-variant-numeric:tabular-nums">$509</td>
     </tr>
       </tbody>
     </table>
-    <p class="history-note" style="margin-top:10px">No Kalshi market found for: Tomaš Machač vs Jannik Sinner, Carlos Alcaraz vs Tomas Martin Etcheverry, Jiri Lehečka vs Alexander Bublik, Alexander Blockx vs Alex de Minaur, Valentin Vacherot vs Hubert Hurkacz, Joao Fonseca vs Alexander Zverev</p>
   </div>
 
   <p class="section-label" style="margin-top:48px">Bankroll &amp; Bets</p>
@@ -686,11 +752,66 @@
 </div>
 
 <!-- Progressive enhancement: doubles toggle only. All content is pre-rendered above. -->
+<!-- SHAP explanation modal -->
+<div id="shap-overlay" class="shap-overlay" onclick="if(event.target===this)closeShap()">
+  <div class="shap-card">
+    <div class="shap-hd">
+      <div>
+        <div class="shap-title" id="shap-title">Why this prediction?</div>
+        <div class="shap-sub" id="shap-sub"></div>
+      </div>
+      <button class="shap-close" onclick="closeShap()">&#x2715;</button>
+    </div>
+    <div class="shap-base" id="shap-base"></div>
+    <div class="shap-axis" id="shap-axis"></div>
+    <div id="shap-rows"></div>
+    <div class="shap-note">
+      SHAP (SHapley Additive exPlanations) via XGBoost TreeExplainer.
+      Bars show each feature's approximate probability-point (pp) contribution.
+      Positive = favors the first-listed player.
+    </div>
+  </div>
+</div>
 <script>
 function toggleDoubles(btn) {
   var el  = document.getElementById('doubles-content');
   var open = el.classList.toggle('open');
   btn.querySelector('.toggle-icon').classList.toggle('open', open);
+}
+function openShapModal(el) {
+  var raw = el.getAttribute('data-shap');
+  if (!raw) return;
+  var d;
+  try { d = JSON.parse(raw); } catch(e) { return; }
+  if (!d || !d.contributors) return;
+  var p1 = d.p1 || '', p2 = d.p2 || '';
+  var p1l = p1.split(' ').pop(), p2l = p2.split(' ').pop();
+  var fav = d.final_prob >= 50 ? p1 : p2;
+  var favProb = d.final_prob >= 50 ? d.final_prob : (100 - d.final_prob).toFixed(1);
+  document.getElementById('shap-title').textContent = 'Why ' + fav.split(' ').pop() + ' at ' + favProb + '%?';
+  document.getElementById('shap-sub').textContent = 'Model: ' + p1l + ' ' + d.final_prob.toFixed(1) + '% · ' + p2l + ' ' + (100-d.final_prob).toFixed(1) + '%';
+  document.getElementById('shap-base').textContent = 'Baseline (avg match): ' + d.base_prob + '% · Each bar = one feature's contribution';
+  document.getElementById('shap-axis').innerHTML = '<span>← favors ' + p2l + '</span><span>favors ' + p1l + ' →</span>';
+  var maxPP = Math.max.apply(null, d.contributors.map(function(c){return Math.abs(c.pp);}));
+  var rows = d.contributors.map(function(c) {
+    var pct = maxPP > 0 ? Math.min(Math.abs(c.pp) / maxPP * 46, 46) : 0;
+    var pos = c.pp >= 0;
+    var col = pos ? 'var(--accent2)' : 'var(--accent)';
+    var sign = pos ? '+' : '';
+    return '<div class="shap-row">' +
+      '<span class="shap-lbl">' + c.label + '</span>' +
+      '<div class="shap-bars">' +
+        '<div class="shap-mid"></div>' +
+        '<div class="shap-bar ' + (pos?'p':'n') + '" style="width:' + pct + '%"></div>' +
+      '</div>' +
+      '<span class="shap-pp" style="color:' + col + '">' + sign + c.pp + 'pp</span>' +
+      '</div>';
+  }).join('');
+  document.getElementById('shap-rows').innerHTML = rows;
+  document.getElementById('shap-overlay').classList.add('open');
+}
+function closeShap() {
+  document.getElementById('shap-overlay').classList.remove('open');
 }
 </script>
 </body>
