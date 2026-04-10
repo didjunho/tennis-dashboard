@@ -140,7 +140,14 @@
     border-radius: 6px;
     padding: 16px 20px;
     margin-bottom: 8px;
+    cursor: pointer;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: rgba(255,255,255,0.05);
+    transition: opacity 0.1s;
   }
+  .match-card:active { opacity: 0.75; }
   .match-round {
     font-size: 10px;
     font-weight: 300;
@@ -387,7 +394,7 @@
 
   <header class="site-header">
     <h1>ATP Tennis Predictions</h1>
-    <p class="subtitle">XGBoost · 126 features · April 10, 2026 · Generated 2026-04-10 14:03 UTC</p>
+    <p class="subtitle">XGBoost · 126 features · April 10, 2026 · Generated 2026-04-10 14:05 UTC</p>
   </header>
 
   <div class="stats-row">
@@ -785,6 +792,26 @@ function openShapModal(el) {
 function closeShap() {
   document.getElementById('shap-overlay').classList.remove('open');
 }
+
+// Touch event delegation — iOS Safari fallback for onclick on non-interactive elements
+(function() {
+  document.addEventListener('touchend', function(e) {
+    var card = null;
+    if (e.target.closest) {
+      card = e.target.closest('[data-shap]');
+    } else {
+      var el = e.target;
+      while (el && el !== document.body) {
+        if (el.hasAttribute && el.hasAttribute('data-shap')) { card = el; break; }
+        el = el.parentNode;
+      }
+    }
+    if (card && card.getAttribute('data-shap')) {
+      e.preventDefault();
+      openShapModal(card);
+    }
+  }, {passive: false});
+})();
 </script>
 </body>
 </html>
