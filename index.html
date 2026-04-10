@@ -394,7 +394,7 @@
 
   <header class="site-header">
     <h1>ATP Tennis Predictions</h1>
-    <p class="subtitle">XGBoost · 126 features · April 10, 2026 · Generated 2026-04-10 14:05 UTC</p>
+    <p class="subtitle">XGBoost · 126 features · April 10, 2026 · Generated 2026-04-10 14:14 UTC</p>
   </header>
 
   <div class="stats-row">
@@ -732,7 +732,7 @@
 
 <!-- Progressive enhancement: doubles toggle only. All content is pre-rendered above. -->
 <!-- SHAP explanation modal -->
-<div id="shap-overlay" class="shap-overlay" onclick="if(event.target===this)closeShap()">
+<div id="shap-overlay" class="shap-overlay" onclick="if(event.target===this&&Date.now()-_shapOpenTime>400)closeShap()">
   <div class="shap-card">
     <div class="shap-hd">
       <div>
@@ -757,7 +757,9 @@ function toggleDoubles(btn) {
   var open = el.classList.toggle('open');
   btn.querySelector('.toggle-icon').classList.toggle('open', open);
 }
+var _shapOpenTime = 0;
 function openShapModal(el) {
+  _shapOpenTime = Date.now();
   var raw = el.getAttribute('data-shap');
   if (!raw) return;
   var d;
