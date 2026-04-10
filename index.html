@@ -413,7 +413,7 @@
 
   <header class="site-header">
     <h1>ATP Tennis Predictions</h1>
-    <p class="subtitle">XGBoost · 126 features · April 10, 2026 · Generated 2026-04-10 14:23 UTC</p>
+    <p class="subtitle">XGBoost · 126 features · April 10, 2026 · Generated 2026-04-10 14:34 UTC</p>
   </header>
 
   <div class="stats-row">
@@ -790,7 +790,7 @@ function openShapModal(el) {
   var favProb = d.final_prob >= 50 ? d.final_prob : (100 - d.final_prob).toFixed(1);
   document.getElementById('shap-title').textContent = 'Why ' + fav.split(' ').pop() + ' at ' + favProb + '%?';
   document.getElementById('shap-sub').textContent = 'Model: ' + p1l + ' ' + d.final_prob.toFixed(1) + '% · ' + p2l + ' ' + (100-d.final_prob).toFixed(1) + '%';
-  document.getElementById('shap-base').textContent = 'Baseline (avg match): ' + d.base_prob + '% · Each bar = one feature's contribution';
+  document.getElementById('shap-base').textContent = 'Baseline (avg match): ' + d.base_prob + '% · Each bar = one feature contribution (pp)';
   document.getElementById('shap-axis').innerHTML = '<span>← favors ' + p2l + '</span><span>favors ' + p1l + ' →</span>';
   var maxPP = Math.max.apply(null, d.contributors.map(function(c){return Math.abs(c.pp);}));
   var rows = d.contributors.map(function(c) {
