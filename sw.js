@@ -4,7 +4,7 @@
  * Cache is versioned: bump CACHE_VERSION after any deploy to force refresh.
  */
 
-const CACHE_VERSION = 'tennis-v2';
+const CACHE_VERSION = 'tennis-v3';
 const APP_SHELL = [
   '.',
   './index.html',

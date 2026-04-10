@@ -23,8 +23,21 @@
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
       navigator.serviceWorker.register('sw.js')
-        .then(function (reg) { console.log('[PWA] Service worker registered:', reg.scope); })
-        .catch(function (err) { console.warn('[PWA] Service worker registration failed:', err); });
+        .then(function (reg) {
+          reg.update();
+          reg.addEventListener('updatefound', function () {
+            var sw = reg.installing;
+            sw.addEventListener('statechange', function () {
+              if (sw.state === 'installed' && navigator.serviceWorker.controller) {
+                window.location.reload();
+              }
+            });
+          });
+        })
+        .catch(function (err) { console.warn('[PWA] SW registration failed:', err); });
+      navigator.serviceWorker.addEventListener('controllerchange', function () {
+        window.location.reload();
+      });
     });
   }
 </script>
@@ -140,14 +153,20 @@
     border-radius: 6px;
     padding: 16px 20px;
     margin-bottom: 8px;
-    cursor: pointer;
     touch-action: manipulation;
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-tap-highlight-color: rgba(255,255,255,0.05);
+    -webkit-tap-highlight-color: transparent;
     transition: opacity 0.1s;
+    /* Reset button defaults when element is a <button> */
+    width: 100%;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    outline: none;
+    box-sizing: border-box;
+    display: block;
   }
-  .match-card:active { opacity: 0.75; }
+  button.match-card { cursor: pointer; }
+  button.match-card:active { opacity: 0.75; }
   .match-round {
     font-size: 10px;
     font-weight: 300;
@@ -394,7 +413,7 @@
 
   <header class="site-header">
     <h1>ATP Tennis Predictions</h1>
-    <p class="subtitle">XGBoost · 126 features · April 10, 2026 · Generated 2026-04-10 14:14 UTC</p>
+    <p class="subtitle">XGBoost · 126 features · April 10, 2026 · Generated 2026-04-10 14:23 UTC</p>
   </header>
 
   <div class="stats-row">
@@ -424,7 +443,7 @@
     <span class="surface-label surface-Clay">clay</span>
   </div>
   <div class="match-grid">
-    <div class="match-card" onclick="openShapModal(this)" style="cursor:pointer" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 44.2, &quot;p1&quot;: &quot;Valentin Vacherot&quot;, &quot;p2&quot;: &quot;Alex de Minaur&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.5618, &quot;pp&quot;: -13.9}, {&quot;label&quot;: &quot;Minaur rest days&quot;, &quot;shap&quot;: 0.4589, &quot;pp&quot;: 11.3}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.3087, &quot;pp&quot;: 7.6}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.2857, &quot;pp&quot;: -7.0}, {&quot;label&quot;: &quot;Minaur games last 14d&quot;, &quot;shap&quot;: 0.1479, &quot;pp&quot;: 3.6}, {&quot;label&quot;: &quot;Vacherot rest days&quot;, &quot;shap&quot;: -0.1467, &quot;pp&quot;: -3.6}, {&quot;label&quot;: &quot;Minaur sets last 14d&quot;, &quot;shap&quot;: 0.1085, &quot;pp&quot;: 2.7}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: -0.1009, &quot;pp&quot;: -2.5}]}">
+    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 44.2, &quot;p1&quot;: &quot;Valentin Vacherot&quot;, &quot;p2&quot;: &quot;Alex de Minaur&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.5618, &quot;pp&quot;: -13.9}, {&quot;label&quot;: &quot;Minaur rest days&quot;, &quot;shap&quot;: 0.4589, &quot;pp&quot;: 11.3}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.3087, &quot;pp&quot;: 7.6}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.2857, &quot;pp&quot;: -7.0}, {&quot;label&quot;: &quot;Minaur games last 14d&quot;, &quot;shap&quot;: 0.1479, &quot;pp&quot;: 3.6}, {&quot;label&quot;: &quot;Vacherot rest days&quot;, &quot;shap&quot;: -0.1467, &quot;pp&quot;: -3.6}, {&quot;label&quot;: &quot;Minaur sets last 14d&quot;, &quot;shap&quot;: 0.1085, &quot;pp&quot;: 2.7}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: -0.1009, &quot;pp&quot;: -2.5}]}">
     <div class="match-round">Quarterfinals</div>
       <div class="match-players">
         <div class="player-block">
@@ -441,8 +460,8 @@
         <div class="prob-p1-fill" style="width:23.7%"></div>
         <div class="prob-p2-fill" style="width:76.3%"></div>
       </div>
-    </div>
-    <div class="match-card" onclick="openShapModal(this)" style="cursor:pointer" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 72.2, &quot;p1&quot;: &quot;Carlos Alcaraz&quot;, &quot;p2&quot;: &quot;Alexander Bublik&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Bublik rest days&quot;, &quot;shap&quot;: 0.4976, &quot;pp&quot;: 10.0}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.4934, &quot;pp&quot;: 9.9}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.4431, &quot;pp&quot;: 8.9}, {&quot;label&quot;: &quot;Alcaraz rest days&quot;, &quot;shap&quot;: -0.4295, &quot;pp&quot;: -8.6}, {&quot;label&quot;: &quot;Alcaraz games last 14d&quot;, &quot;shap&quot;: -0.2643, &quot;pp&quot;: -5.3}, {&quot;label&quot;: &quot;Bublik games last 14d&quot;, &quot;shap&quot;: 0.1368, &quot;pp&quot;: 2.7}, {&quot;label&quot;: &quot;Alcaraz sets last 14d&quot;, &quot;shap&quot;: -0.1059, &quot;pp&quot;: -2.1}, {&quot;label&quot;: &quot;Bublik sets last 14d&quot;, &quot;shap&quot;: 0.0935, &quot;pp&quot;: 1.9}]}">
+    </button>
+    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 72.2, &quot;p1&quot;: &quot;Carlos Alcaraz&quot;, &quot;p2&quot;: &quot;Alexander Bublik&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Bublik rest days&quot;, &quot;shap&quot;: 0.4976, &quot;pp&quot;: 10.0}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.4934, &quot;pp&quot;: 9.9}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.4431, &quot;pp&quot;: 8.9}, {&quot;label&quot;: &quot;Alcaraz rest days&quot;, &quot;shap&quot;: -0.4295, &quot;pp&quot;: -8.6}, {&quot;label&quot;: &quot;Alcaraz games last 14d&quot;, &quot;shap&quot;: -0.2643, &quot;pp&quot;: -5.3}, {&quot;label&quot;: &quot;Bublik games last 14d&quot;, &quot;shap&quot;: 0.1368, &quot;pp&quot;: 2.7}, {&quot;label&quot;: &quot;Alcaraz sets last 14d&quot;, &quot;shap&quot;: -0.1059, &quot;pp&quot;: -2.1}, {&quot;label&quot;: &quot;Bublik sets last 14d&quot;, &quot;shap&quot;: 0.0935, &quot;pp&quot;: 1.9}]}">
     <div class="match-round">Quarterfinals</div>
       <div class="match-players">
         <div class="player-block">
@@ -459,7 +478,7 @@
         <div class="prob-p1-fill" style="width:72.2%"></div>
         <div class="prob-p2-fill" style="width:27.8%"></div>
       </div>
-    </div>
+    </button>
   </div>
 </div>
   </div>
