@@ -258,6 +258,25 @@
     letter-spacing: 0.04em;
   }
 
+  /* ── Mobile responsive ── */
+  @media (max-width: 640px) {
+    .container { padding: 24px 14px; }
+    .site-header h1 { font-size: 22px; }
+    .stats-row { gap: 16px; }
+    .stat-value { font-size: 20px; }
+    /* Scrollable tables */
+    .history-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { min-width: 520px; }
+    th, td { padding: 8px 10px; }
+    /* Match cards: stack player names vertically on very narrow screens */
+    .match-players { grid-template-columns: 1fr; gap: 6px; }
+    .player-block.right { text-align: left; align-items: flex-start; }
+    .vs-label { display: none; }
+    .player-name { font-size: 14px; }
+    /* Bankroll stat boxes */
+    .stat-value { font-size: 16px; }
+  }
+
   /* ── Demo badge ── */
   .demo-note {
     font-size: 11px;
@@ -301,7 +320,7 @@
 
   <header class="site-header">
     <h1>ATP Tennis Predictions</h1>
-    <p class="subtitle">XGBoost · 126 features · April 9, 2026 · Generated 2026-04-09 21:13 UTC</p>
+    <p class="subtitle">XGBoost · 126 features · April 9, 2026 · Generated 2026-04-10 00:55 UTC</p>
   </header>
 
   <div class="stats-row">
@@ -387,66 +406,37 @@
     </div>
   </div>
 </div>
-<div class="tourn-group">
-  <div class="tourn-header">
-    <span class="tourn-name">Monte Carlo, Monaco, Doubles</span>
-    <span class="surface-label surface-Clay">clay</span>
+<button class="doubles-toggle" onclick="toggleDoubles(this)">
+  <span class="toggle-icon">&#9654;</span>
+  Doubles (3 matches)
+</button>
+<div class="doubles-content" id="doubles-content">
+  <div class="doubles-row">
+    <div class="doubles-players">
+      <span>Granollers M / Zeballos H</span>
+      <span style="color:var(--muted)">vs</span>
+      <span>Andreozzi G / Guinard M</span>
+      <span class="doubles-meta" style="color:var(--muted)">Monte Carlo, Monaco, Doubles · Quarterfinals</span>
+    </div>
+    <span style="font-variant-numeric:tabular-nums;font-size:11px">48.3% / 51.7%</span>
   </div>
-  <div class="match-grid">
-    <div class="match-card">
-    <div class="match-round">Quarterfinals</div>
-      <div class="match-players">
-        <div class="player-block">
-          <span class="player-name">Granollers M / Zeballos H</span>
-          <span class="player-prob">48.3%</span>
-        </div>
-        <span class="vs-label">vs</span>
-        <div class="player-block right">
-          <span class="player-name">Andreozzi G / Guinard M</span>
-          <span class="player-prob">51.7%</span>
-        </div>
-      </div>
-      <div class="prob-bar">
-        <div class="prob-p1-fill" style="width:48.3%"></div>
-        <div class="prob-p2-fill" style="width:51.7%"></div>
-      </div>
+  <div class="doubles-row">
+    <div class="doubles-players">
+      <span>Harrison C / Skupski N</span>
+      <span style="color:var(--muted)">vs</span>
+      <span>Arevalo M / Pavic M</span>
+      <span class="doubles-meta" style="color:var(--muted)">Monte Carlo, Monaco, Doubles · Quarterfinals</span>
     </div>
-    <div class="match-card">
-    <div class="match-round">Quarterfinals</div>
-      <div class="match-players">
-        <div class="player-block">
-          <span class="player-name">Harrison C / Skupski N</span>
-          <span class="player-prob">48.3%</span>
-        </div>
-        <span class="vs-label">vs</span>
-        <div class="player-block right">
-          <span class="player-name">Arevalo M / Pavic M</span>
-          <span class="player-prob">51.7%</span>
-        </div>
-      </div>
-      <div class="prob-bar">
-        <div class="prob-p1-fill" style="width:48.3%"></div>
-        <div class="prob-p2-fill" style="width:51.7%"></div>
-      </div>
+    <span style="font-variant-numeric:tabular-nums;font-size:11px">48.3% / 51.7%</span>
+  </div>
+  <div class="doubles-row">
+    <div class="doubles-players">
+      <span>Krawietz K / Puetz T</span>
+      <span style="color:var(--muted)">vs</span>
+      <span>Cash J / Glasspool L</span>
+      <span class="doubles-meta" style="color:var(--muted)">Monte Carlo, Monaco, Doubles · Quarterfinals</span>
     </div>
-    <div class="match-card">
-    <div class="match-round">Quarterfinals</div>
-      <div class="match-players">
-        <div class="player-block">
-          <span class="player-name">Krawietz K / Puetz T</span>
-          <span class="player-prob">48.3%</span>
-        </div>
-        <span class="vs-label">vs</span>
-        <div class="player-block right">
-          <span class="player-name">Cash J / Glasspool L</span>
-          <span class="player-prob">51.7%</span>
-        </div>
-      </div>
-      <div class="prob-bar">
-        <div class="prob-p1-fill" style="width:48.3%"></div>
-        <div class="prob-p2-fill" style="width:51.7%"></div>
-      </div>
-    </div>
+    <span style="font-variant-numeric:tabular-nums;font-size:11px">48.3% / 51.7%</span>
   </div>
 </div>
   </div>
@@ -476,34 +466,34 @@
   </tr>
   <tr>
     <td style="font-weight:300;color:var(--muted)">2026-04-09</td>
-    <td>Krawietz K / Puetz T</td>
-    <td>Cash J / Glasspool L</td>
+    <td>Carlos Alcaraz</td>
+    <td>Alexander Bublik</td>
     <td><span class="surface-label surface-Clay">clay</span></td>
-    <td style="font-weight:300;color:var(--muted)">Monte Carlo, Monaco, Doubles</td>
-    <td style="font-variant-numeric:tabular-nums;color:var(--accent)">48.3%</td>
-    <td style="font-variant-numeric:tabular-nums;color:var(--accent2)">51.7%</td>
+    <td style="font-weight:300;color:var(--muted)">Monte Carlo, Monaco</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent)">72.2%</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent2)">27.8%</td>
     <td style="font-weight:300"><span class="pend">—</span></td>
     <td><span class="pend">pending</span></td>
   </tr>
   <tr>
     <td style="font-weight:300;color:var(--muted)">2026-04-09</td>
-    <td>Harrison C / Skupski N</td>
-    <td>Arevalo M / Pavic M</td>
+    <td>Felix Auger-Aliassime</td>
+    <td>Jannik Sinner</td>
     <td><span class="surface-label surface-Clay">clay</span></td>
-    <td style="font-weight:300;color:var(--muted)">Monte Carlo, Monaco, Doubles</td>
-    <td style="font-variant-numeric:tabular-nums;color:var(--accent)">48.3%</td>
-    <td style="font-variant-numeric:tabular-nums;color:var(--accent2)">51.7%</td>
+    <td style="font-weight:300;color:var(--muted)">Monte Carlo, Monaco</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent)">24.2%</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent2)">75.8%</td>
     <td style="font-weight:300"><span class="pend">—</span></td>
     <td><span class="pend">pending</span></td>
   </tr>
   <tr>
     <td style="font-weight:300;color:var(--muted)">2026-04-09</td>
-    <td>Granollers M / Zeballos H</td>
-    <td>Andreozzi G / Guinard M</td>
+    <td>Joao Fonseca</td>
+    <td>Alexander Zverev</td>
     <td><span class="surface-label surface-Clay">clay</span></td>
-    <td style="font-weight:300;color:var(--muted)">Monte Carlo, Monaco, Doubles</td>
-    <td style="font-variant-numeric:tabular-nums;color:var(--accent)">48.3%</td>
-    <td style="font-variant-numeric:tabular-nums;color:var(--accent2)">51.7%</td>
+    <td style="font-weight:300;color:var(--muted)">Monte Carlo, Monaco</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent)">19.9%</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent2)">80.1%</td>
     <td style="font-weight:300"><span class="pend">—</span></td>
     <td><span class="pend">pending</span></td>
   </tr>
