@@ -68,7 +68,10 @@
   .container { max-width: 960px; margin: 0 auto; padding: 48px 32px; }
 
   /* ── Header ── */
-  .site-header { margin-bottom: 48px; border-bottom: 1px solid var(--border); padding-bottom: 24px; }
+  .site-header { margin-bottom: 48px; border-bottom: 1px solid var(--border); padding-bottom: 24px; display: flex; align-items: flex-start; justify-content: space-between; }
+  .site-header-left { flex: 1; }
+  .report-link { font-size: 11px; font-weight: 300; color: var(--muted); letter-spacing: 0.05em; text-decoration: none; border: 1px solid var(--border); border-radius: 4px; padding: 5px 10px; white-space: nowrap; margin-top: 4px; display: inline-block; transition: color 0.15s, border-color 0.15s; }
+  .report-link:hover { color: var(--accent); border-color: var(--accent); }
   .site-header h1 {
     font-family: 'DM Serif Display', Georgia, serif;
     font-size: 32px;
@@ -412,8 +415,11 @@
 <div class="container">
 
   <header class="site-header">
-    <h1>ATP Tennis Predictions</h1>
-    <p class="subtitle">XGBoost · 126 features · April 10, 2026 · Generated 2026-04-10 14:53 UTC</p>
+    <div class="site-header-left">
+      <h1>ATP Tennis Predictions</h1>
+      <p class="subtitle">XGBoost · 126 features · April 10, 2026 · Generated 2026-04-10 14:57 UTC</p>
+    </div>
+    <a class="report-link" href="model_report.pdf" target="_blank">Model Report ↗</a>
   </header>
 
   <div class="stats-row">
@@ -792,8 +798,16 @@ function openShapModal(el) {
   document.getElementById('shap-sub').textContent = 'Model: ' + p1l + ' ' + d.final_prob.toFixed(1) + '% · ' + p2l + ' ' + (100-d.final_prob).toFixed(1) + '%';
   document.getElementById('shap-base').textContent = 'Baseline (avg match): ' + d.base_prob + '% · Each bar = one feature contribution (pp)';
   document.getElementById('shap-axis').innerHTML = '<span>← favors ' + p2l + '</span><span>favors ' + p1l + ' →</span>';
-  var maxPP = Math.max.apply(null, d.contributors.map(function(c){return Math.abs(c.pp);}));
-  var rows = d.contributors.map(function(c) {
+  // Recompute pp from raw log-odds SHAP using the correct stored probability
+  var _p = d.final_prob / 100;
+  var _scale = _p * (1 - _p);
+  var contributors = d.contributors.map(function(c) {
+    return { label: c.label, pp: Math.round(c.shap * _scale * 1000) / 10 };
+  });
+  var shownSum = contributors.reduce(function(s,c){return s + c.pp;}, 0);
+  var remaining = Math.round((d.final_prob - d.base_prob - shownSum) * 10) / 10;
+  var maxPP = Math.max.apply(null, contributors.map(function(c){return Math.abs(c.pp);}).concat([Math.abs(remaining)]));
+  var rows = contributors.map(function(c) {
     var pct = maxPP > 0 ? Math.min(Math.abs(c.pp) / maxPP * 46, 46) : 0;
     var pos = c.pp >= 0;
     var col = pos ? 'var(--accent2)' : 'var(--accent)';
@@ -807,6 +821,21 @@ function openShapModal(el) {
       '<span class="shap-pp" style="color:' + col + '">' + sign + c.pp + 'pp</span>' +
       '</div>';
   }).join('');
+  // Remaining features row
+  if (Math.abs(remaining) >= 0.5) {
+    var rpct = maxPP > 0 ? Math.min(Math.abs(remaining) / maxPP * 46, 46) : 0;
+    var rpos = remaining >= 0;
+    var rsign = rpos ? '+' : '';
+    var n_hidden = 126 - d.contributors.length;
+    rows += '<div class="shap-row shap-row-rem">' +
+      '<span class="shap-lbl" style="color:var(--muted)">Other ' + n_hidden + ' features</span>' +
+      '<div class="shap-bars">' +
+        '<div class="shap-mid"></div>' +
+        '<div class="shap-bar ' + (rpos?'p':'n') + '" style="width:' + rpct + '%;opacity:0.35"></div>' +
+      '</div>' +
+      '<span class="shap-pp" style="color:var(--muted)">' + rsign + remaining + 'pp</span>' +
+      '</div>';
+  }
   document.getElementById('shap-rows').innerHTML = rows;
   document.getElementById('shap-overlay').classList.add('open');
 }
