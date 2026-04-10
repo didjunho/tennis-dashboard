@@ -1,154 +1,697 @@
-<\!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tennis Prediction Dashboard</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
-            padding: 20px;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-        }
-        header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px 30px;
-            text-align: center;
-        }
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-        .timestamp {
-            font-size: 0.95em;
-            opacity: 0.9;
-        }
-        main {
-            padding: 40px 30px;
-        }
-        .section {
-            margin-bottom: 50px;
-        }
-        h2 {
-            color: #667eea;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            font-size: 1.8em;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        thead {
-            background-color: #f8f9fa;
-            border-bottom: 2px solid #dee2e6;
-        }
-        th {
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-            color: #495057;
-            font-size: 0.95em;
-        }
-        td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #dee2e6;
-        }
-        tbody tr:hover {
-            background-color: #f8f9fa;
-            transition: background-color 0.2s ease;
-        }
-        .prob {
-            font-weight: 600;
-            color: #667eea;
-        }
-        .edge-positive {
-            color: #28a745;
-            font-weight: 600;
-        }
-        .edge-negative {
-            color: #dc3545;
-            font-weight: 600;
-        }
-        .edge-neutral {
-            color: #6c757d;
-        }
-        .alert {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 6px;
-            border-left: 4px solid;
-        }
-        .alert-warning {
-            background-color: #fff3cd;
-            border-color: #ffc107;
-            color: #856404;
-        }
-        .alert-success {
-            background-color: #d4edda;
-            border-color: #28a745;
-            color: #155724;
-        }
-        .metric {
-            display: inline-block;
-            margin-right: 30px;
-            margin-bottom: 10px;
-        }
-        .metric-label {
-            color: #6c757d;
-            font-size: 0.9em;
-        }
-        .metric-value {
-            font-size: 1.8em;
-            font-weight: bold;
-            color: #667eea;
-        }
-        footer {
-            background-color: #f8f9fa;
-            border-top: 1px solid #dee2e6;
-            padding: 20px 30px;
-            text-align: center;
-            color: #6c757d;
-            font-size: 0.9em;
-        }
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            color: #6c757d;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ATP Tennis Predictions</title>
+
+<!-- PWA manifest & theme -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1a1814">
+
+<!-- iOS PWA meta tags -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Tennis">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- Service worker registration (progressive enhancement only) -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js')
+        .then(function (reg) { console.log('[PWA] Service worker registered:', reg.scope); })
+        .catch(function (err) { console.warn('[PWA] Service worker registration failed:', err); });
+    });
+  }
+</script>
+<style>
+  :root {
+    --bg:        #1a1814;
+    --surface:   #221f1b;
+    --card:      #2a2620;
+    --border:    #3d3830;
+    --text:      #e8e0d4;
+    --muted:     #9a8f82;
+    --accent:    #c4956a;
+    --accent2:   #7a9e8a;
+    --clay-col:  #b87355;
+    --grass-col: #6b9b7a;
+    --hard-col:  #7a8fa8;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 14px; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 960px; margin: 0 auto; padding: 48px 32px; }
+
+  /* ── Header ── */
+  .site-header { margin-bottom: 48px; border-bottom: 1px solid var(--border); padding-bottom: 24px; }
+  .site-header h1 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+  .site-header .subtitle {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── Stats row ── */
+  .stats-row {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 56px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 32px;
+  }
+  .stat {  }
+  .stat-label {
+    font-size: 10px;
+    font-weight: 300;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+  .stat-value {
+    font-size: 28px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    color: var(--text);
+    line-height: 1;
+  }
+  .stat-value.accent  { color: var(--accent);  }
+  .stat-value.accent2 { color: var(--accent2); }
+
+  /* ── Section heading ── */
+  .section-label {
+    font-size: 10px;
+    font-weight: 300;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 20px;
+  }
+
+  /* ── Tournament group ── */
+  .tourn-group { margin-bottom: 36px; }
+  .tourn-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .tourn-name {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .surface-label { font-size: 10px; font-weight: 300; letter-spacing: 0.06em; }
+  .surface-Clay  { color: var(--clay-col);  }
+  .surface-Grass { color: var(--grass-col); }
+  .surface-Hard  { color: var(--hard-col);  }
+
+  /* ── Match card ── */
+  .match-grid { display: grid; gap: 1px; }
+  .match-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-bottom: 8px;
+  }
+  .match-round {
+    font-size: 10px;
+    font-weight: 300;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .match-players {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .player-block { display: flex; flex-direction: column; gap: 2px; }
+  .player-block.right { text-align: right; align-items: flex-end; }
+  .player-name { font-size: 15px; font-weight: 500; color: var(--text); line-height: 1.2; }
+  .player-prob { font-size: 11px; font-weight: 300; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .vs-label { font-size: 10px; color: var(--muted); text-align: center; }
+
+  /* Split probability bar */
+  .prob-bar {
+    display: flex;
+    height: 4px;
+    border-radius: 2px;
+    overflow: hidden;
+    background: var(--border);
+  }
+  .prob-p1-fill { background: var(--accent);  height: 100%; flex-shrink: 0; }
+  .prob-p2-fill { background: var(--accent2); height: 100%; flex-shrink: 0; }
+
+  /* ── Doubles section ── */
+  .doubles-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 14px;
+  }
+  .doubles-toggle:hover { color: var(--text); }
+  .toggle-icon { font-size: 8px; transition: transform 0.2s; }
+  .toggle-icon.open { transform: rotate(90deg); }
+  /* Default: doubles hidden (toggle reveals them).
+     Without JS, doubles remain visible via the noscript fallback. */
+  .doubles-content { display: none; }
+  .doubles-content.open { display: block; }
+  .doubles-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 300;
+  }
+  .doubles-row:last-child { border-bottom: none; }
+  .doubles-players { display: flex; gap: 10px; align-items: center; }
+  .doubles-meta { font-size: 10px; letter-spacing: 0.04em; margin-left: 16px; }
+
+  /* No-JS: show doubles content always (override display:none) */
+  .no-js .doubles-content { display: block; }
+  .no-js .doubles-toggle  { display: none; }
+
+  /* ── History table ── */
+  .history-wrap {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th {
+    text-align: left;
+    padding: 10px 14px;
+    color: var(--muted);
+    font-weight: 300;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text); }
+  tr:last-child td { border-bottom: none; }
+  .hit  { color: var(--accent2); }
+  .miss { color: #b87070; }
+  .pend { color: var(--muted); font-style: italic; }
+  .history-note {
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--muted);
+    border-left: 2px solid var(--border);
+    padding-left: 12px;
+    line-height: 1.6;
+  }
+
+  /* ── Footer ── */
+  footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Mobile responsive ── */
+  @media (max-width: 640px) {
+    .container { padding: 24px 14px; }
+    .site-header h1 { font-size: 22px; }
+    .stats-row { gap: 16px; }
+    .stat-value { font-size: 20px; }
+    /* Scrollable tables */
+    .history-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { min-width: 520px; }
+    th, td { padding: 8px 10px; }
+    /* Match cards: stack player names vertically on very narrow screens */
+    .match-players { grid-template-columns: 1fr; gap: 6px; }
+    .player-block.right { text-align: left; align-items: flex-start; }
+    .vs-label { display: none; }
+    .player-name { font-size: 14px; }
+    /* Bankroll stat boxes */
+    .stat-value { font-size: 16px; }
+  }
+
+  /* ── Demo badge ── */
+  .demo-note {
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--muted);
+    border-left: 2px solid var(--border);
+    padding-left: 12px;
+    margin-bottom: 20px;
+  }
+
+  /* ── Kalshi edges ── */
+  .kalshi-yes {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 500;
+    background: rgba(122,158,138,.18);
+    color: var(--accent2);
+  }
+  .kalshi-no {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 500;
+    background: rgba(196,149,106,.18);
+    color: var(--accent);
+  }
+  .kalshi-warn {
+    font-size: 10px;
+    color: #b87070;
+    margin-left: 4px;
+  }
+</style>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Tennis Prediction Dashboard</h1>
-            <p class="timestamp">Generated: 2026-04-10 13:08:42 UTC</p>
-        </header>
+<!-- no-js class removed by inline script below; fallback for Quick Look / no-JS -->
+<body class="no-js">
+<script>document.body.classList.remove('no-js');</script>
+<div class="container">
 
-        <main>
-<div class="section"><h2>Model Predictions</h2><div><div class="metric"><div class="metric-label">Total Matches</div><div class="metric-value">9</div></div></div><table><thead><tr><th>Date</th><th>Player 1</th><th>Player 2</th><th>P1 Win Prob</th><th>Tournament</th><th>Round</th><th>Surface</th></tr></thead><tbody><tr><td>2026-04-10</td><td><strong>Valentin Vacherot</strong></td><td><strong>Alex de Minaur</strong></td><td><span class="prob">23.7%</span></td><td>Monte Carlo, Monaco</td><td>Quarterfinals</td><td>Clay</td></tr><tr><td>2026-04-09</td><td><strong>Carlos Alcaraz</strong></td><td><strong>Alexander Bublik</strong></td><td><span class="prob">72.2%</span></td><td>Monte Carlo, Monaco</td><td>Quarterfinals</td><td>Clay</td></tr><tr><td>2026-04-09</td><td><strong>Felix Auger-Aliassime</strong></td><td><strong>Jannik Sinner</strong></td><td><span class="prob">24.2%</span></td><td>Monte Carlo, Monaco</td><td>Quarterfinals</td><td>Clay</td></tr><tr><td>2026-04-09</td><td><strong>Joao Fonseca</strong></td><td><strong>Alexander Zverev</strong></td><td><span class="prob">19.9%</span></td><td>Monte Carlo, Monaco</td><td>Quarterfinals</td><td>Clay</td></tr><tr><td>2026-04-09</td><td><strong>Valentin Vacherot</strong></td><td><strong>Hubert Hurkacz</strong></td><td><span class="prob">13.3%</span></td><td>Monte Carlo, Monaco</td><td>Round of 16</td><td>Clay</td></tr><tr><td>2026-04-09</td><td><strong>Alexander Blockx</strong></td><td><strong>Alex de Minaur</strong></td><td><span class="prob">31.6%</span></td><td>Monte Carlo, Monaco</td><td>Round of 16</td><td>Clay</td></tr><tr><td>2026-04-09</td><td><strong>Jiri Lehečka</strong></td><td><strong>Alexander Bublik</strong></td><td><span class="prob">43.0%</span></td><td>Monte Carlo, Monaco</td><td>Round of 16</td><td>Clay</td></tr><tr><td>2026-04-09</td><td><strong>Carlos Alcaraz</strong></td><td><strong>Tomas Martin Etcheverry</strong></td><td><span class="prob">46.3%</span></td><td>Monte Carlo, Monaco</td><td>Round of 16</td><td>Clay</td></tr><tr><td>2026-04-09</td><td><strong>Tomaš Machač</strong></td><td><strong>Jannik Sinner</strong></td><td><span class="prob">22.1%</span></td><td>Monte Carlo, Monaco</td><td>Round of 16</td><td>Clay</td></tr></tbody></table></div><div class="section"><h2>Kalshi Market Edges</h2><div class="alert alert-success"><strong>Edge Analysis:</strong> Found 3 markets with edge >= 5pp net of taker fees</div><table><thead><tr><th>Match</th><th>Side</th><th>Model Prob</th><th>Market Price</th><th>Edge (pp)</th><th>Volume ($)</th><th>Tournament</th><th>Round</th></tr></thead><tbody><tr><td><strong>Felix Auger-Aliassime vs Jannik Sinner</strong></td><td>NO</td><td>75.8%</td><td>4.5%</td><td><span class="edge-positive">+71.0pp</span></td><td>$6,246</td><td>Monte Carlo, Monaco</td><td>Quarterfinals</td></tr><tr><td><strong>Carlos Alcaraz vs Alexander Bublik</strong></td><td>YES</td><td>72.2%</td><td>8.5%</td><td><span class="edge-positive">+63.2pp</span></td><td>$1,567</td><td>Monte Carlo, Monaco</td><td>Quarterfinals</td></tr><tr><td><strong>Valentin Vacherot vs Alex de Minaur</strong></td><td>NO</td><td>76.3%</td><td>66.5%</td><td><span class="edge-positive">+8.3pp</span></td><td>$509</td><td>Monte Carlo, Monaco</td><td>Quarterfinals</td></tr></tbody></table></div><div class="section"><h2>Scan Statistics</h2><div><div class="metric"><div class="metric-label">Markets Scanned</div><div class="metric-value">6</div></div><div class="metric"><div class="metric-label">ATP Matches Found</div><div class="metric-value">3</div></div><div class="metric"><div class="metric-label">Edges >= 5pp</div><div class="metric-value">3</div></div></div></div>        </main>
+  <header class="site-header">
+    <h1>ATP Tennis Predictions</h1>
+    <p class="subtitle">XGBoost · 126 features · April 10, 2026 · Generated 2026-04-10 12:14 UTC</p>
+  </header>
 
-        <footer>
-            <p>Tennis Prediction System | Model: v2_norm | Last updated: 2026-04-10 13:08:42 UTC</p>
-        </footer>
+  <div class="stats-row">
+    <div class="stat">
+      <div class="stat-label">Holdout Accuracy</div>
+      <div class="stat-value accent2">78.7%</div>
     </div>
+    <div class="stat">
+      <div class="stat-label">Holdout Log-Loss</div>
+      <div class="stat-value">0.402</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Live Accuracy</div>
+      <div class="stat-value accent">66.7%</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Predictions Stored</div>
+      <div class="stat-value">9</div>
+    </div>
+  </div>
+
+  <p class="section-label">Upcoming Matches</p>
+  <div id="upcoming-section">
+<div class="tourn-group">
+  <div class="tourn-header">
+    <span class="tourn-name">Monte Carlo, Monaco</span>
+    <span class="surface-label surface-Clay">clay</span>
+  </div>
+  <div class="match-grid">
+    <div class="match-card">
+    <div class="match-round">Quarterfinals</div>
+      <div class="match-players">
+        <div class="player-block">
+          <span class="player-name">Valentin Vacherot</span>
+          <span class="player-prob">23.7%</span>
+        </div>
+        <span class="vs-label">vs</span>
+        <div class="player-block right">
+          <span class="player-name">Alex de Minaur</span>
+          <span class="player-prob">76.3%</span>
+        </div>
+      </div>
+      <div class="prob-bar">
+        <div class="prob-p1-fill" style="width:23.7%"></div>
+        <div class="prob-p2-fill" style="width:76.3%"></div>
+      </div>
+    </div>
+    <div class="match-card">
+    <div class="match-round">Quarterfinals</div>
+      <div class="match-players">
+        <div class="player-block">
+          <span class="player-name">Felix Auger-Aliassime</span>
+          <span class="player-prob">24.2%</span>
+        </div>
+        <span class="vs-label">vs</span>
+        <div class="player-block right">
+          <span class="player-name">Jannik Sinner</span>
+          <span class="player-prob">75.8%</span>
+        </div>
+      </div>
+      <div class="prob-bar">
+        <div class="prob-p1-fill" style="width:24.2%"></div>
+        <div class="prob-p2-fill" style="width:75.8%"></div>
+      </div>
+    </div>
+    <div class="match-card">
+    <div class="match-round">Quarterfinals</div>
+      <div class="match-players">
+        <div class="player-block">
+          <span class="player-name">Carlos Alcaraz</span>
+          <span class="player-prob">72.2%</span>
+        </div>
+        <span class="vs-label">vs</span>
+        <div class="player-block right">
+          <span class="player-name">Alexander Bublik</span>
+          <span class="player-prob">27.8%</span>
+        </div>
+      </div>
+      <div class="prob-bar">
+        <div class="prob-p1-fill" style="width:72.2%"></div>
+        <div class="prob-p2-fill" style="width:27.8%"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+
+  <p class="section-label" style="margin-top:48px">Prediction History</p>
+  <div class="history-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th><th>Player 1</th><th>Player 2</th>
+          <th>Surface</th><th>Tournament</th>
+          <th>P1 Win%</th><th>P2 Win%</th>
+          <th>Winner</th><th>Result</th>
+        </tr>
+      </thead>
+      <tbody>
+  <tr>
+    <td style="font-weight:300;color:var(--muted)">2026-04-10</td>
+    <td>Valentin Vacherot</td>
+    <td>Alex de Minaur</td>
+    <td><span class="surface-label surface-Clay">clay</span></td>
+    <td style="font-weight:300;color:var(--muted)">Monte Carlo, Monaco</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent)">23.7%</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent2)">76.3%</td>
+    <td style="font-weight:300"><span class="pend">—</span></td>
+    <td><span class="pend">pending</span></td>
+  </tr>
+  <tr>
+    <td style="font-weight:300;color:var(--muted)">2026-04-09</td>
+    <td>Carlos Alcaraz</td>
+    <td>Alexander Bublik</td>
+    <td><span class="surface-label surface-Clay">clay</span></td>
+    <td style="font-weight:300;color:var(--muted)">Monte Carlo, Monaco</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent)">72.2%</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent2)">27.8%</td>
+    <td style="font-weight:300"><span class="pend">—</span></td>
+    <td><span class="pend">pending</span></td>
+  </tr>
+  <tr>
+    <td style="font-weight:300;color:var(--muted)">2026-04-09</td>
+    <td>Felix Auger-Aliassime</td>
+    <td>Jannik Sinner</td>
+    <td><span class="surface-label surface-Clay">clay</span></td>
+    <td style="font-weight:300;color:var(--muted)">Monte Carlo, Monaco</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent)">24.2%</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent2)">75.8%</td>
+    <td style="font-weight:300"><span class="pend">—</span></td>
+    <td><span class="pend">pending</span></td>
+  </tr>
+  <tr>
+    <td style="font-weight:300;color:var(--muted)">2026-04-09</td>
+    <td>Joao Fonseca</td>
+    <td>Alexander Zverev</td>
+    <td><span class="surface-label surface-Clay">clay</span></td>
+    <td style="font-weight:300;color:var(--muted)">Monte Carlo, Monaco</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent)">19.9%</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent2)">80.1%</td>
+    <td style="font-weight:300">Alexander Zverev</td>
+    <td><span class="hit">&#10003;</span></td>
+  </tr>
+  <tr>
+    <td style="font-weight:300;color:var(--muted)">2026-04-09</td>
+    <td>Valentin Vacherot</td>
+    <td>Hubert Hurkacz</td>
+    <td><span class="surface-label surface-Clay">clay</span></td>
+    <td style="font-weight:300;color:var(--muted)">Monte Carlo, Monaco</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent)">13.3%</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent2)">86.7%</td>
+    <td style="font-weight:300">Valentin Vacherot</td>
+    <td><span class="miss">&#10007;</span></td>
+  </tr>
+  <tr>
+    <td style="font-weight:300;color:var(--muted)">2026-04-09</td>
+    <td>Alexander Blockx</td>
+    <td>Alex de Minaur</td>
+    <td><span class="surface-label surface-Clay">clay</span></td>
+    <td style="font-weight:300;color:var(--muted)">Monte Carlo, Monaco</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent)">31.6%</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent2)">68.3%</td>
+    <td style="font-weight:300">Alex de Minaur</td>
+    <td><span class="hit">&#10003;</span></td>
+  </tr>
+  <tr>
+    <td style="font-weight:300;color:var(--muted)">2026-04-09</td>
+    <td>Jiri Lehečka</td>
+    <td>Alexander Bublik</td>
+    <td><span class="surface-label surface-Clay">clay</span></td>
+    <td style="font-weight:300;color:var(--muted)">Monte Carlo, Monaco</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent)">43.0%</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent2)">57.0%</td>
+    <td style="font-weight:300">Alexander Bublik</td>
+    <td><span class="hit">&#10003;</span></td>
+  </tr>
+  <tr>
+    <td style="font-weight:300;color:var(--muted)">2026-04-09</td>
+    <td>Carlos Alcaraz</td>
+    <td>Tomas Martin Etcheverry</td>
+    <td><span class="surface-label surface-Clay">clay</span></td>
+    <td style="font-weight:300;color:var(--muted)">Monte Carlo, Monaco</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent)">46.3%</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent2)">53.7%</td>
+    <td style="font-weight:300">Carlos Alcaraz</td>
+    <td><span class="miss">&#10007;</span></td>
+  </tr>
+  <tr>
+    <td style="font-weight:300;color:var(--muted)">2026-04-09</td>
+    <td>Tomaš Machač</td>
+    <td>Jannik Sinner</td>
+    <td><span class="surface-label surface-Clay">clay</span></td>
+    <td style="font-weight:300;color:var(--muted)">Monte Carlo, Monaco</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent)">22.1%</td>
+    <td style="font-variant-numeric:tabular-nums;color:var(--accent2)">77.9%</td>
+    <td style="font-weight:300">Jannik Sinner</td>
+    <td><span class="hit">&#10003;</span></td>
+  </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="history-note">
+    Results are recorded after matches complete. Run <code>generate_dashboard.py</code> daily to update.
+    3 predictions awaiting results.
+  </p>
+
+  <p class="section-label" style="margin-top:48px">Kalshi Edges<span style="color:var(--muted);font-size:11px;font-weight:300"> — 6 markets scanned · 2026-04-10 12:03 UTC</span></p>
+  <div class="history-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Match</th><th>Side</th><th>Model</th>
+          <th>Market</th><th>Edge</th><th>Spread</th><th>Volume</th>
+        </tr>
+      </thead>
+      <tbody>
+    <tr>
+      <td>Alexander Bublik vs Carlos Alcaraz</td>
+      <td><span class="kalshi-yes">YES</span></td>
+      <td style="font-variant-numeric:tabular-nums">27.8%</td>
+      <td style="font-variant-numeric:tabular-nums">9¢</td>
+      <td style="color:var(--accent2);font-variant-numeric:tabular-nums">+18.2pp</td>
+      <td style="font-variant-numeric:tabular-nums">1.0¢</td>
+      <td style="font-variant-numeric:tabular-nums">$1,213</td>
+    </tr>
+    <tr>
+      <td>Jannik Sinner vs Felix Auger-Aliassime</td>
+      <td><span class="kalshi-no">NO</span></td>
+      <td style="font-variant-numeric:tabular-nums">24.2%</td>
+      <td style="font-variant-numeric:tabular-nums">13¢</td>
+      <td style="color:var(--accent2);font-variant-numeric:tabular-nums">+10.4pp</td>
+      <td style="font-variant-numeric:tabular-nums">1.0¢</td>
+      <td style="font-variant-numeric:tabular-nums">$2,528</td>
+    </tr>
+    <tr>
+      <td>Valentin Vacherot vs Alex de Minaur</td>
+      <td><span class="kalshi-no">NO</span></td>
+      <td style="font-variant-numeric:tabular-nums">76.3%</td>
+      <td style="font-variant-numeric:tabular-nums">66¢</td>
+      <td style="color:var(--accent2);font-variant-numeric:tabular-nums">+8.7pp</td>
+      <td style="font-variant-numeric:tabular-nums">1.0¢</td>
+      <td style="font-variant-numeric:tabular-nums">$410</td>
+    </tr>
+      </tbody>
+    </table>
+    <p class="history-note" style="margin-top:10px">No Kalshi market found for: Tomaš Machač vs Jannik Sinner, Carlos Alcaraz vs Tomas Martin Etcheverry, Jiri Lehečka vs Alexander Bublik, Alexander Blockx vs Alex de Minaur, Valentin Vacherot vs Hubert Hurkacz, Joao Fonseca vs Alexander Zverev</p>
+  </div>
+
+  <p class="section-label" style="margin-top:48px">Bankroll &amp; Bets</p>
+  <div class="history-wrap">
+    <div style="display:flex;gap:2px;flex-wrap:wrap;margin-bottom:2px">
+      <div style="flex:1;min-width:120px;background:var(--card);border:1px solid var(--border);
+                  border-radius:6px 0 0 6px;padding:12px 16px">
+        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;
+                    letter-spacing:.06em;margin-bottom:4px">Bankroll</div>
+        <div style="font-size:18px;font-weight:500">$9,790.59</div>
+      </div>
+      <div style="flex:1;min-width:120px;background:var(--card);border:1px solid var(--border);
+                  padding:12px 16px">
+        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;
+                    letter-spacing:.06em;margin-bottom:4px">Total P&amp;L</div>
+        <div style="font-size:18px;font-weight:500;color:var(--accent)">$-209.41</div>
+      </div>
+      <div style="flex:1;min-width:120px;background:var(--card);border:1px solid var(--border);
+                  padding:12px 16px">
+        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;
+                    letter-spacing:.06em;margin-bottom:4px">Win Rate</div>
+        <div style="font-size:18px;font-weight:500">50%
+          <span style="font-size:12px;color:var(--muted);font-weight:300">
+            1W/1L</span></div>
+      </div>
+      <div style="flex:1;min-width:120px;background:var(--card);border:1px solid var(--border);
+                  border-radius:0 6px 6px 0;padding:12px 16px">
+        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;
+                    letter-spacing:.06em;margin-bottom:4px">Open Bets</div>
+        <div style="font-size:18px;font-weight:500">3</div>
+      </div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;padding:16px;margin-top:2px">
+      <svg viewBox="0 0 640 180" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;height:auto;display:block;overflow:visible">
+  <line x1="72" y1="144" x2="616" y2="144" stroke="#3d3830" stroke-width="1"/><line x1="72" y1="80" x2="616" y2="80" stroke="#3d3830" stroke-width="1"/><line x1="72" y1="16" x2="616" y2="16" stroke="#3d3830" stroke-width="1"/>
+  <polyline points="72.0,21.8 253.3,138.2 434.7,75.9 616.0,75.9" fill="none" stroke="#c4956a" stroke-width="2.5"
+            stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="66" y="144" text-anchor="end" dominant-baseline="middle" fill="#9a8f82" font-size="10">$9,527</text><text x="66" y="80" text-anchor="end" dominant-baseline="middle" fill="#9a8f82" font-size="10">$9,775</text><text x="66" y="16" text-anchor="end" dominant-baseline="middle" fill="#9a8f82" font-size="10">$10,023</text>
+  <text x="72" y="176" text-anchor="middle" fill="#9a8f82" font-size="10">4/9 18:02</text><text x="616" y="176" text-anchor="middle" fill="#9a8f82" font-size="10">4/10 12:03</text>
+</svg>
+    </div>
+  </div>
+  <p class="section-label" style="margin-top:24px;font-size:12px;color:var(--muted)">Open Bets</p>
+  <div class="history-wrap">
+    <table>
+      <thead><tr>
+        <th>Match</th><th>Side</th><th>Model%</th><th>Market</th>
+        <th>Edge</th><th>Bet $</th><th>Potential Profit</th><th>Status</th>
+      </tr></thead>
+      <tbody>
+    <tr style="background:var(--surface)">
+      <td>Jannik Sinner vs Felix Auger-Aliassime</td>
+      <td><span class="kalshi-no">NO</span></td>
+      <td style="font-variant-numeric:tabular-nums">28.0%</td>
+      <td style="font-variant-numeric:tabular-nums">11¢</td>
+      <td style="color:var(--accent2);font-variant-numeric:tabular-nums">+16.4pp</td>
+      <td style="font-variant-numeric:tabular-nums">$133.65</td>
+      <td style="font-variant-numeric:tabular-nums">$1081.35</td>
+      <td><span style="color:var(--muted)">open</span></td>
+    </tr>
+    <tr style="">
+      <td>Alexander Bublik vs Carlos Alcaraz</td>
+      <td><span class="kalshi-yes">YES</span></td>
+      <td style="font-variant-numeric:tabular-nums">16.6%</td>
+      <td style="font-variant-numeric:tabular-nums">9¢</td>
+      <td style="color:var(--accent2);font-variant-numeric:tabular-nums">+7.0pp</td>
+      <td style="font-variant-numeric:tabular-nums">$92.49</td>
+      <td style="font-variant-numeric:tabular-nums">$935.18</td>
+      <td><span style="color:var(--muted)">open</span></td>
+    </tr>
+    <tr style="background:var(--surface)">
+      <td>Valentin Vacherot vs Alex de Minaur</td>
+      <td><span class="kalshi-no">NO</span></td>
+      <td style="font-variant-numeric:tabular-nums">76.3%</td>
+      <td style="font-variant-numeric:tabular-nums">68¢</td>
+      <td style="color:var(--accent2);font-variant-numeric:tabular-nums">+6.8pp</td>
+      <td style="font-variant-numeric:tabular-nums">$266.14</td>
+      <td style="font-variant-numeric:tabular-nums">$125.24</td>
+      <td><span style="color:var(--muted)">open</span></td>
+    </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="section-label" style="margin-top:24px;font-size:12px;color:var(--muted)">Settled Bets</p>
+  <div class="history-wrap">
+    <table>
+      <thead><tr>
+        <th>Match</th><th>Side</th><th>Result</th>
+        <th>Bet $</th><th>P&amp;L</th><th>Running Bankroll</th>
+      </tr></thead>
+      <tbody>
+    <tr style="background:var(--surface)">
+      <td>Valentin Vacherot vs Hubert Hurkacz</td>
+      <td><span class="kalshi-no">NO</span></td>
+      <td style="color:var(--accent);font-weight:500">LOST</td>
+      <td style="font-variant-numeric:tabular-nums">$450.30</td>
+      <td style="color:var(--accent);font-variant-numeric:tabular-nums">$-450.30</td>
+      <td style="font-variant-numeric:tabular-nums">$9,549.70</td>
+    </tr>
+    <tr style="">
+      <td>Alexander Zverev vs Joao Fonseca</td>
+      <td><span class="kalshi-yes">YES</span></td>
+      <td style="color:var(--accent2);font-weight:500">WON</td>
+      <td style="font-variant-numeric:tabular-nums">$388.53</td>
+      <td style="color:var(--accent2);font-variant-numeric:tabular-nums">$+240.89</td>
+      <td style="font-variant-numeric:tabular-nums">$9,790.59</td>
+    </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    Data: JeffSackmann/tennis_atp &nbsp;·&nbsp; Model: XGBoost 2024 holdout LL=0.402 Acc=78.7%
+  </footer>
+
+</div>
+
+<!-- Progressive enhancement: doubles toggle only. All content is pre-rendered above. -->
+<script>
+function toggleDoubles(btn) {
+  var el  = document.getElementById('doubles-content');
+  var open = el.classList.toggle('open');
+  btn.querySelector('.toggle-icon').classList.toggle('open', open);
+}
+</script>
 </body>
 </html>
