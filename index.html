@@ -169,7 +169,14 @@
     display: block;
   }
   button.match-card { cursor: pointer; }
-  button.match-card:active { opacity: 0.75; }
+  button.match-card:hover { border-color: var(--accent); box-shadow: 0 2px 12px rgba(0,0,0,0.25); transform: translateY(-1px); }
+  button.match-card:active { opacity: 0.75; transform: none; }
+  .shap-hint {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 10px; font-weight: 400; color: var(--accent);
+    letter-spacing: 0.04em; margin-top: 10px; opacity: 0.75;
+  }
+  .shap-hint svg { opacity: 0.9; }
   .match-round {
     font-size: 10px;
     font-weight: 300;
@@ -417,7 +424,7 @@
   <header class="site-header">
     <div class="site-header-left">
       <h1>ATP Tennis Predictions</h1>
-      <p class="subtitle">XGBoost · 126 features · April 10, 2026 · Generated 2026-04-10 14:57 UTC</p>
+      <p class="subtitle">XGBoost · 126 features · April 10, 2026 · Generated 2026-04-10 15:03 UTC</p>
     </div>
     <a class="report-link" href="model_report.pdf" target="_blank">Model Report ↗</a>
   </header>
@@ -466,7 +473,7 @@
         <div class="prob-p1-fill" style="width:23.7%"></div>
         <div class="prob-p2-fill" style="width:76.3%"></div>
       </div>
-    </button>
+<span class="shap-hint"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</span>\n    </button>
     <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 72.2, &quot;p1&quot;: &quot;Carlos Alcaraz&quot;, &quot;p2&quot;: &quot;Alexander Bublik&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Bublik rest days&quot;, &quot;shap&quot;: 0.4976, &quot;pp&quot;: 10.0}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.4934, &quot;pp&quot;: 9.9}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.4431, &quot;pp&quot;: 8.9}, {&quot;label&quot;: &quot;Alcaraz rest days&quot;, &quot;shap&quot;: -0.4295, &quot;pp&quot;: -8.6}, {&quot;label&quot;: &quot;Alcaraz games last 14d&quot;, &quot;shap&quot;: -0.2643, &quot;pp&quot;: -5.3}, {&quot;label&quot;: &quot;Bublik games last 14d&quot;, &quot;shap&quot;: 0.1368, &quot;pp&quot;: 2.7}, {&quot;label&quot;: &quot;Alcaraz sets last 14d&quot;, &quot;shap&quot;: -0.1059, &quot;pp&quot;: -2.1}, {&quot;label&quot;: &quot;Bublik sets last 14d&quot;, &quot;shap&quot;: 0.0935, &quot;pp&quot;: 1.9}]}">
     <div class="match-round">Quarterfinals</div>
       <div class="match-players">
@@ -484,7 +491,7 @@
         <div class="prob-p1-fill" style="width:72.2%"></div>
         <div class="prob-p2-fill" style="width:27.8%"></div>
       </div>
-    </button>
+<span class="shap-hint"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</span>\n    </button>
   </div>
 </div>
   </div>
@@ -608,7 +615,7 @@
     2 predictions awaiting results.
   </p>
 
-  <p class="section-label" style="margin-top:48px">Kalshi Edges<span style="color:var(--muted);font-size:11px;font-weight:300"> — 4 markets scanned · 2026-04-10 14:03 UTC</span></p>
+  <p class="section-label" style="margin-top:48px">Kalshi Edges<span style="color:var(--muted);font-size:11px;font-weight:300"> — 6 markets scanned · 2026-04-10 15:03 UTC</span></p>
   <div class="history-wrap">
     <table>
       <thead>
@@ -619,26 +626,17 @@
       </thead>
       <tbody>
     <tr>
-      <td>Alexander Bublik vs Carlos Alcaraz</td>
-      <td><span class="kalshi-yes">YES</span></td>
-      <td style="font-variant-numeric:tabular-nums">27.8%</td>
-      <td style="font-variant-numeric:tabular-nums">10¢</td>
-      <td style="color:var(--accent2);font-variant-numeric:tabular-nums">+17.1pp</td>
-      <td style="font-variant-numeric:tabular-nums">1.0¢</td>
-      <td style="font-variant-numeric:tabular-nums">$2,254</td>
-    </tr>
-    <tr>
       <td>Valentin Vacherot vs Alex de Minaur</td>
       <td><span class="kalshi-no">NO</span></td>
       <td style="font-variant-numeric:tabular-nums">76.3%</td>
       <td style="font-variant-numeric:tabular-nums">67¢</td>
       <td style="color:var(--accent2);font-variant-numeric:tabular-nums">+7.8pp</td>
-      <td style="font-variant-numeric:tabular-nums">2.0¢</td>
-      <td style="font-variant-numeric:tabular-nums">$697</td>
+      <td style="font-variant-numeric:tabular-nums">1.0¢</td>
+      <td style="font-variant-numeric:tabular-nums">$948</td>
     </tr>
       </tbody>
     </table>
-    <p class="history-note" style="margin-top:10px">No Kalshi market found for: Tomaš Machač vs Jannik Sinner, Carlos Alcaraz vs Tomas Martin Etcheverry, Jiri Lehečka vs Alexander Bublik, Alexander Blockx vs Alex de Minaur, Valentin Vacherot vs Hubert Hurkacz, Joao Fonseca vs Alexander Zverev (+1 more)</p>
+    <p class="history-note" style="margin-top:10px">No Kalshi market found for: Tomaš Machač vs Jannik Sinner, Carlos Alcaraz vs Tomas Martin Etcheverry, Jiri Lehečka vs Alexander Bublik, Alexander Blockx vs Alex de Minaur, Valentin Vacherot vs Hubert Hurkacz, Joao Fonseca vs Alexander Zverev (+2 more)</p>
   </div>
 
   <p class="section-label" style="margin-top:48px">Bankroll &amp; Bets</p>
@@ -678,7 +676,7 @@
   <polyline points="72.0,21.8 208.0,138.2 344.0,75.9 480.0,110.5 616.0,110.5" fill="none" stroke="#c4956a" stroke-width="2.5"
             stroke-linejoin="round" stroke-linecap="round"/>
   <text x="66" y="144" text-anchor="end" dominant-baseline="middle" fill="#9a8f82" font-size="10">$9,527</text><text x="66" y="80" text-anchor="end" dominant-baseline="middle" fill="#9a8f82" font-size="10">$9,775</text><text x="66" y="16" text-anchor="end" dominant-baseline="middle" fill="#9a8f82" font-size="10">$10,023</text>
-  <text x="72" y="176" text-anchor="middle" fill="#9a8f82" font-size="10">4/9 18:02</text><text x="616" y="176" text-anchor="middle" fill="#9a8f82" font-size="10">4/10 14:03</text>
+  <text x="72" y="176" text-anchor="middle" fill="#9a8f82" font-size="10">4/9 18:02</text><text x="616" y="176" text-anchor="middle" fill="#9a8f82" font-size="10">4/10 15:03</text>
 </svg>
     </div>
   </div>
