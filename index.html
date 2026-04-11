@@ -161,11 +161,6 @@
     box-sizing: border-box;
     display: block;
   }
-  .shap-hint {
-    display: inline-flex; align-items: center; gap: 4px;
-    font-size: 10px; font-weight: 400; color: var(--accent);
-    letter-spacing: 0.04em; margin-top: 10px; opacity: 0.75;
-  }
   .shap-trigger {
     display: flex; align-items: center; gap: 4px;
     width: 100%; background: none; border: none;
@@ -383,10 +378,12 @@
   }
 
 @media (max-width: 600px) {
-    /* Tighter card padding to reduce vertical footprint */
-    .match-card { padding: 10px 12px; }
-    /* Smaller shap-trigger chip on mobile */
-    .shap-trigger { font-size: 9px; margin-top: 6px; gap: 3px; }
+    /* Compact card padding for mobile */
+    .match-card { padding: 8px 10px; }
+    /* Smaller shap-trigger on mobile */
+    .shap-trigger { font-size: 9px; margin-top: 6px; padding-top: 6px; gap: 3px; }
+    .shap-trigger svg { width: 9px; height: 9px; }
+  }
     .shap-trigger svg { width: 9px; height: 9px; }
   }
 
@@ -1769,26 +1766,6 @@ function openShapModal(el) {
 function closeShap() {
   document.getElementById('shap-overlay').classList.remove('open');
 }
-
-// Touch event delegation — iOS Safari fallback for onclick on non-interactive elements
-(function() {
-  document.addEventListener('touchend', function(e) {
-    var card = null;
-    if (e.target.closest) {
-      card = e.target.closest('[data-shap]');
-    } else {
-      var el = e.target;
-      while (el && el !== document.body) {
-        if (el.hasAttribute && el.hasAttribute('data-shap')) { card = el; break; }
-        el = el.parentNode;
-      }
-    }
-    if (card && card.getAttribute('data-shap')) {
-      e.preventDefault();
-      openShapModal(card);
-    }
-  }, {passive: false});
-})();
 </script>
 </body>
 </html>
