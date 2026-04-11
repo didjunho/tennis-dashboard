@@ -168,7 +168,7 @@
     box-sizing: border-box;
     display: block;
   }
-  button.match-card { cursor: pointer; }
+  button.match-card { cursor: pointer; touch-action: pan-y; }
   button.match-card:hover { border-color: var(--accent); box-shadow: 0 2px 12px rgba(0,0,0,0.25); transform: translateY(-1px); }
   button.match-card:active { opacity: 0.75; transform: none; }
   .shap-hint {
@@ -378,6 +378,14 @@
     .player-name { font-size: 14px; }
     /* Bankroll stat boxes */
     .stat-value { font-size: 16px; }
+  }
+
+@media (max-width: 600px) {
+    /* Tighter card padding to reduce vertical footprint */
+    .match-card { padding: 10px 12px; }
+    /* Smaller shap-hint chip — inline with less top margin */
+    .shap-hint { font-size: 9px; margin-top: 6px; gap: 3px; }
+    .shap-hint svg { width: 9px; height: 9px; }
   }
 
   /* ── Demo badge ── */
