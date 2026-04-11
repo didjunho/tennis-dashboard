@@ -154,29 +154,31 @@
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 6px;
-    padding: 16px 20px;
+    padding: 12px 16px;
     margin-bottom: 8px;
-    touch-action: manipulation;
+    touch-action: pan-y;
     -webkit-tap-highlight-color: transparent;
-    transition: opacity 0.1s;
-    /* Reset button defaults when element is a <button> */
-    width: 100%;
-    text-align: left;
-    font: inherit;
-    color: inherit;
-    outline: none;
     box-sizing: border-box;
     display: block;
   }
-  button.match-card { cursor: pointer; touch-action: pan-y; }
-  button.match-card:hover { border-color: var(--accent); box-shadow: 0 2px 12px rgba(0,0,0,0.25); transform: translateY(-1px); }
-  button.match-card:active { opacity: 0.75; transform: none; }
   .shap-hint {
     display: inline-flex; align-items: center; gap: 4px;
     font-size: 10px; font-weight: 400; color: var(--accent);
     letter-spacing: 0.04em; margin-top: 10px; opacity: 0.75;
   }
-  .shap-hint svg { opacity: 0.9; }
+  .shap-trigger {
+    display: flex; align-items: center; gap: 4px;
+    width: 100%; background: none; border: none;
+    border-top: 1px solid var(--border);
+    padding: 8px 0 0 0; margin-top: 10px;
+    font-size: 10px; font-weight: 400; color: var(--accent);
+    letter-spacing: 0.04em; opacity: 0.75;
+    cursor: pointer; text-align: left;
+    touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  }
+  .shap-trigger:hover { opacity: 1; }
+  .shap-trigger:active { opacity: 0.5; }
+  .shap-trigger svg { opacity: 0.9; flex-shrink: 0; }
   .match-round {
     font-size: 10px;
     font-weight: 300;
@@ -383,9 +385,9 @@
 @media (max-width: 600px) {
     /* Tighter card padding to reduce vertical footprint */
     .match-card { padding: 10px 12px; }
-    /* Smaller shap-hint chip — inline with less top margin */
-    .shap-hint { font-size: 9px; margin-top: 6px; gap: 3px; }
-    .shap-hint svg { width: 9px; height: 9px; }
+    /* Smaller shap-trigger chip on mobile */
+    .shap-trigger { font-size: 9px; margin-top: 6px; gap: 3px; }
+    .shap-trigger svg { width: 9px; height: 9px; }
   }
 
   /* ── Demo badge ── */
@@ -464,7 +466,7 @@
     <span class="surface-label surface-Clay">clay</span>
   </div>
   <div class="match-grid">
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 29.4, &quot;p1&quot;: &quot;Alexander Zverev&quot;, &quot;p2&quot;: &quot;Jannik Sinner&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.4704, &quot;pp&quot;: -9.8}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.2569, &quot;pp&quot;: -5.3}, {&quot;label&quot;: &quot;Sinner rest days&quot;, &quot;shap&quot;: -0.1703, &quot;pp&quot;: -3.5}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.1557, &quot;pp&quot;: 3.2}, {&quot;label&quot;: &quot;Sinner elo overall&quot;, &quot;shap&quot;: -0.1201, &quot;pp&quot;: -2.5}, {&quot;label&quot;: &quot;Sinner wr surf 10&quot;, &quot;shap&quot;: 0.1121, &quot;pp&quot;: 2.3}, {&quot;label&quot;: &quot;Sinner surface pct&quot;, &quot;shap&quot;: 0.1004, &quot;pp&quot;: 2.1}, {&quot;label&quot;: &quot;Zverev rest days&quot;, &quot;shap&quot;: 0.1, &quot;pp&quot;: 2.1}]}">
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 29.4, &quot;p1&quot;: &quot;Alexander Zverev&quot;, &quot;p2&quot;: &quot;Jannik Sinner&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.4704, &quot;pp&quot;: -9.8}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.2569, &quot;pp&quot;: -5.3}, {&quot;label&quot;: &quot;Sinner rest days&quot;, &quot;shap&quot;: -0.1703, &quot;pp&quot;: -3.5}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.1557, &quot;pp&quot;: 3.2}, {&quot;label&quot;: &quot;Sinner elo overall&quot;, &quot;shap&quot;: -0.1201, &quot;pp&quot;: -2.5}, {&quot;label&quot;: &quot;Sinner wr surf 10&quot;, &quot;shap&quot;: 0.1121, &quot;pp&quot;: 2.3}, {&quot;label&quot;: &quot;Sinner surface pct&quot;, &quot;shap&quot;: 0.1004, &quot;pp&quot;: 2.1}, {&quot;label&quot;: &quot;Zverev rest days&quot;, &quot;shap&quot;: 0.1, &quot;pp&quot;: 2.1}]}">
     <div class="match-round">Semifinals</div>
       <div class="match-players">
         <div class="player-block">
@@ -481,9 +483,9 @@
         <div class="prob-p1-fill" style="width:29.4%"></div>
         <div class="prob-p2-fill" style="width:70.5%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 78.8, &quot;p1&quot;: &quot;Carlos Alcaraz&quot;, &quot;p2&quot;: &quot;Valentin Vacherot&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.7139, &quot;pp&quot;: 11.9}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.5568, &quot;pp&quot;: 9.3}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.2347, &quot;pp&quot;: -3.9}, {&quot;label&quot;: &quot;Alcaraz elo overall&quot;, &quot;shap&quot;: 0.1638, &quot;pp&quot;: 2.7}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.1337, &quot;pp&quot;: 2.2}, {&quot;label&quot;: &quot;Vacherot surface pct&quot;, &quot;shap&quot;: 0.1118, &quot;pp&quot;: 1.9}, {&quot;label&quot;: &quot;Vacherot rest days&quot;, &quot;shap&quot;: -0.1077, &quot;pp&quot;: -1.8}, {&quot;label&quot;: &quot;Vacherot wr surf 10&quot;, &quot;shap&quot;: 0.1035, &quot;pp&quot;: 1.7}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 78.8, &quot;p1&quot;: &quot;Carlos Alcaraz&quot;, &quot;p2&quot;: &quot;Valentin Vacherot&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.7139, &quot;pp&quot;: 11.9}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.5568, &quot;pp&quot;: 9.3}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.2347, &quot;pp&quot;: -3.9}, {&quot;label&quot;: &quot;Alcaraz elo overall&quot;, &quot;shap&quot;: 0.1638, &quot;pp&quot;: 2.7}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.1337, &quot;pp&quot;: 2.2}, {&quot;label&quot;: &quot;Vacherot surface pct&quot;, &quot;shap&quot;: 0.1118, &quot;pp&quot;: 1.9}, {&quot;label&quot;: &quot;Vacherot rest days&quot;, &quot;shap&quot;: -0.1077, &quot;pp&quot;: -1.8}, {&quot;label&quot;: &quot;Vacherot wr surf 10&quot;, &quot;shap&quot;: 0.1035, &quot;pp&quot;: 1.7}]}">
     <div class="match-round">Semifinals</div>
       <div class="match-players">
         <div class="player-block">
@@ -500,8 +502,8 @@
         <div class="prob-p1-fill" style="width:78.8%"></div>
         <div class="prob-p2-fill" style="width:21.2%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
   </div>
 </div>
 <div class="tourn-group">
@@ -510,7 +512,7 @@
     <span class="surface-label surface-Clay">clay</span>
   </div>
   <div class="match-grid">
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 54.5, &quot;p1&quot;: &quot;Jan Choinski&quot;, &quot;p2&quot;: &quot;Marc-Andrea Huesler&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Choinski rest days&quot;, &quot;shap&quot;: -0.7208, &quot;pp&quot;: -17.9}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.6463, &quot;pp&quot;: 16.0}, {&quot;label&quot;: &quot;Huesler rest days&quot;, &quot;shap&quot;: 0.5513, &quot;pp&quot;: 13.7}, {&quot;label&quot;: &quot;Choinski surface pct&quot;, &quot;shap&quot;: -0.1524, &quot;pp&quot;: -3.8}, {&quot;label&quot;: &quot;Huesler surface matches&quot;, &quot;shap&quot;: 0.1193, &quot;pp&quot;: 3.0}, {&quot;label&quot;: &quot;Choinski surface matches&quot;, &quot;shap&quot;: -0.081, &quot;pp&quot;: -2.0}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.0706, &quot;pp&quot;: -1.7}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: -0.0705, &quot;pp&quot;: -1.7}]}">
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 54.5, &quot;p1&quot;: &quot;Jan Choinski&quot;, &quot;p2&quot;: &quot;Marc-Andrea Huesler&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Choinski rest days&quot;, &quot;shap&quot;: -0.7208, &quot;pp&quot;: -17.9}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.6463, &quot;pp&quot;: 16.0}, {&quot;label&quot;: &quot;Huesler rest days&quot;, &quot;shap&quot;: 0.5513, &quot;pp&quot;: 13.7}, {&quot;label&quot;: &quot;Choinski surface pct&quot;, &quot;shap&quot;: -0.1524, &quot;pp&quot;: -3.8}, {&quot;label&quot;: &quot;Huesler surface matches&quot;, &quot;shap&quot;: 0.1193, &quot;pp&quot;: 3.0}, {&quot;label&quot;: &quot;Choinski surface matches&quot;, &quot;shap&quot;: -0.081, &quot;pp&quot;: -2.0}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.0706, &quot;pp&quot;: -1.7}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: -0.0705, &quot;pp&quot;: -1.7}]}">
     <div class="match-round">Qualification Round 1</div>
       <div class="match-players">
         <div class="player-block">
@@ -527,9 +529,9 @@
         <div class="prob-p1-fill" style="width:54.5%"></div>
         <div class="prob-p2-fill" style="width:45.5%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 73.2, &quot;p1&quot;: &quot;Alexander Shevchenko&quot;, &quot;p2&quot;: &quot;Diego Dedura-Palomero&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Shevchenko rest days&quot;, &quot;shap&quot;: -0.6755, &quot;pp&quot;: -13.3}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.5911, &quot;pp&quot;: 11.6}, {&quot;label&quot;: &quot;Dedura-Palomero rest days&quot;, &quot;shap&quot;: 0.4909, &quot;pp&quot;: 9.6}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.2054, &quot;pp&quot;: 4.0}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.1991, &quot;pp&quot;: 3.9}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.0987, &quot;pp&quot;: 1.9}, {&quot;label&quot;: &quot;Dedura-Palomero total matches&quot;, &quot;shap&quot;: 0.0907, &quot;pp&quot;: 1.8}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: -0.0875, &quot;pp&quot;: -1.7}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 73.2, &quot;p1&quot;: &quot;Alexander Shevchenko&quot;, &quot;p2&quot;: &quot;Diego Dedura-Palomero&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Shevchenko rest days&quot;, &quot;shap&quot;: -0.6755, &quot;pp&quot;: -13.3}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.5911, &quot;pp&quot;: 11.6}, {&quot;label&quot;: &quot;Dedura-Palomero rest days&quot;, &quot;shap&quot;: 0.4909, &quot;pp&quot;: 9.6}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.2054, &quot;pp&quot;: 4.0}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.1991, &quot;pp&quot;: 3.9}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.0987, &quot;pp&quot;: 1.9}, {&quot;label&quot;: &quot;Dedura-Palomero total matches&quot;, &quot;shap&quot;: 0.0907, &quot;pp&quot;: 1.8}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: -0.0875, &quot;pp&quot;: -1.7}]}">
     <div class="match-round">Qualification Round 1</div>
       <div class="match-players">
         <div class="player-block">
@@ -546,9 +548,9 @@
         <div class="prob-p1-fill" style="width:73.2%"></div>
         <div class="prob-p2-fill" style="width:26.9%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 3.6, &quot;p1&quot;: &quot;Max Hans Rehberg&quot;, &quot;p2&quot;: &quot;Arthur Fery&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.9299, &quot;pp&quot;: -3.3}, {&quot;label&quot;: &quot;Fery rest days&quot;, &quot;shap&quot;: -0.9116, &quot;pp&quot;: -3.2}, {&quot;label&quot;: &quot;Rehberg rest days&quot;, &quot;shap&quot;: -0.6135, &quot;pp&quot;: -2.1}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.3082, &quot;pp&quot;: -1.1}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.2639, &quot;pp&quot;: -0.9}, {&quot;label&quot;: &quot;Ranking ratio&quot;, &quot;shap&quot;: 0.1989, &quot;pp&quot;: 0.7}, {&quot;label&quot;: &quot;Rehberg total matches&quot;, &quot;shap&quot;: -0.1433, &quot;pp&quot;: -0.5}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.1398, &quot;pp&quot;: 0.5}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 3.6, &quot;p1&quot;: &quot;Max Hans Rehberg&quot;, &quot;p2&quot;: &quot;Arthur Fery&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.9299, &quot;pp&quot;: -3.3}, {&quot;label&quot;: &quot;Fery rest days&quot;, &quot;shap&quot;: -0.9116, &quot;pp&quot;: -3.2}, {&quot;label&quot;: &quot;Rehberg rest days&quot;, &quot;shap&quot;: -0.6135, &quot;pp&quot;: -2.1}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.3082, &quot;pp&quot;: -1.1}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.2639, &quot;pp&quot;: -0.9}, {&quot;label&quot;: &quot;Ranking ratio&quot;, &quot;shap&quot;: 0.1989, &quot;pp&quot;: 0.7}, {&quot;label&quot;: &quot;Rehberg total matches&quot;, &quot;shap&quot;: -0.1433, &quot;pp&quot;: -0.5}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.1398, &quot;pp&quot;: 0.5}]}">
     <div class="match-round">Qualification Round 1</div>
       <div class="match-players">
         <div class="player-block">
@@ -565,9 +567,9 @@
         <div class="prob-p1-fill" style="width:3.6%"></div>
         <div class="prob-p2-fill" style="width:96.4%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 28.7, &quot;p1&quot;: &quot;Lorenzo Giustino&quot;, &quot;p2&quot;: &quot;Andrea Pellegrino&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.7253, &quot;pp&quot;: -14.8}, {&quot;label&quot;: &quot;Pellegrino rest days&quot;, &quot;shap&quot;: 0.6632, &quot;pp&quot;: 13.6}, {&quot;label&quot;: &quot;Giustino rest days&quot;, &quot;shap&quot;: -0.5467, &quot;pp&quot;: -11.2}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.2119, &quot;pp&quot;: -4.3}, {&quot;label&quot;: &quot;Pellegrino games last 14d&quot;, &quot;shap&quot;: 0.2101, &quot;pp&quot;: 4.3}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.1476, &quot;pp&quot;: -3.0}, {&quot;label&quot;: &quot;Ranking ratio&quot;, &quot;shap&quot;: -0.1418, &quot;pp&quot;: -2.9}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.1351, &quot;pp&quot;: 2.8}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 28.7, &quot;p1&quot;: &quot;Lorenzo Giustino&quot;, &quot;p2&quot;: &quot;Andrea Pellegrino&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.7253, &quot;pp&quot;: -14.8}, {&quot;label&quot;: &quot;Pellegrino rest days&quot;, &quot;shap&quot;: 0.6632, &quot;pp&quot;: 13.6}, {&quot;label&quot;: &quot;Giustino rest days&quot;, &quot;shap&quot;: -0.5467, &quot;pp&quot;: -11.2}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.2119, &quot;pp&quot;: -4.3}, {&quot;label&quot;: &quot;Pellegrino games last 14d&quot;, &quot;shap&quot;: 0.2101, &quot;pp&quot;: 4.3}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.1476, &quot;pp&quot;: -3.0}, {&quot;label&quot;: &quot;Ranking ratio&quot;, &quot;shap&quot;: -0.1418, &quot;pp&quot;: -2.9}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.1351, &quot;pp&quot;: 2.8}]}">
     <div class="match-round">Qualification Round 1</div>
       <div class="match-players">
         <div class="player-block">
@@ -584,9 +586,9 @@
         <div class="prob-p1-fill" style="width:28.7%"></div>
         <div class="prob-p2-fill" style="width:71.3%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 38.0, &quot;p1&quot;: &quot;Lorenzo Giustino&quot;, &quot;p2&quot;: &quot;Sumit Nagal&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Nagal rest days&quot;, &quot;shap&quot;: 0.7515, &quot;pp&quot;: 17.7}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.6439, &quot;pp&quot;: -15.2}, {&quot;label&quot;: &quot;Giustino rest days&quot;, &quot;shap&quot;: -0.5316, &quot;pp&quot;: -12.5}, {&quot;label&quot;: &quot;Ranking ratio&quot;, &quot;shap&quot;: -0.156, &quot;pp&quot;: -3.7}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.0887, &quot;pp&quot;: 2.1}, {&quot;label&quot;: &quot;Age difference&quot;, &quot;shap&quot;: -0.0818, &quot;pp&quot;: -1.9}, {&quot;label&quot;: &quot;Giustino surface pct&quot;, &quot;shap&quot;: 0.0762, &quot;pp&quot;: 1.8}, {&quot;label&quot;: &quot;Giustino rank pts&quot;, &quot;shap&quot;: 0.0648, &quot;pp&quot;: 1.5}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 38.0, &quot;p1&quot;: &quot;Lorenzo Giustino&quot;, &quot;p2&quot;: &quot;Sumit Nagal&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Nagal rest days&quot;, &quot;shap&quot;: 0.7515, &quot;pp&quot;: 17.7}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.6439, &quot;pp&quot;: -15.2}, {&quot;label&quot;: &quot;Giustino rest days&quot;, &quot;shap&quot;: -0.5316, &quot;pp&quot;: -12.5}, {&quot;label&quot;: &quot;Ranking ratio&quot;, &quot;shap&quot;: -0.156, &quot;pp&quot;: -3.7}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.0887, &quot;pp&quot;: 2.1}, {&quot;label&quot;: &quot;Age difference&quot;, &quot;shap&quot;: -0.0818, &quot;pp&quot;: -1.9}, {&quot;label&quot;: &quot;Giustino surface pct&quot;, &quot;shap&quot;: 0.0762, &quot;pp&quot;: 1.8}, {&quot;label&quot;: &quot;Giustino rank pts&quot;, &quot;shap&quot;: 0.0648, &quot;pp&quot;: 1.5}]}">
     <div class="match-round">Qualification Round 1</div>
       <div class="match-players">
         <div class="player-block">
@@ -603,9 +605,9 @@
         <div class="prob-p1-fill" style="width:38.0%"></div>
         <div class="prob-p2-fill" style="width:62.1%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 54.0, &quot;p1&quot;: &quot;Emilio Nava&quot;, &quot;p2&quot;: &quot;David Goffin&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.2385, &quot;pp&quot;: 5.9}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.1841, &quot;pp&quot;: -4.6}, {&quot;label&quot;: &quot;Nava surface pct&quot;, &quot;shap&quot;: -0.143, &quot;pp&quot;: -3.6}, {&quot;label&quot;: &quot;Nava rest days&quot;, &quot;shap&quot;: 0.111, &quot;pp&quot;: 2.8}, {&quot;label&quot;: &quot;Goffin surface pct&quot;, &quot;shap&quot;: 0.1054, &quot;pp&quot;: 2.6}, {&quot;label&quot;: &quot;Goffin games last 14d&quot;, &quot;shap&quot;: 0.0989, &quot;pp&quot;: 2.5}, {&quot;label&quot;: &quot;Nava wr surf 10&quot;, &quot;shap&quot;: 0.0895, &quot;pp&quot;: 2.2}, {&quot;label&quot;: &quot;Goffin wr surf 10&quot;, &quot;shap&quot;: -0.0702, &quot;pp&quot;: -1.7}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 54.0, &quot;p1&quot;: &quot;Emilio Nava&quot;, &quot;p2&quot;: &quot;David Goffin&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.2385, &quot;pp&quot;: 5.9}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.1841, &quot;pp&quot;: -4.6}, {&quot;label&quot;: &quot;Nava surface pct&quot;, &quot;shap&quot;: -0.143, &quot;pp&quot;: -3.6}, {&quot;label&quot;: &quot;Nava rest days&quot;, &quot;shap&quot;: 0.111, &quot;pp&quot;: 2.8}, {&quot;label&quot;: &quot;Goffin surface pct&quot;, &quot;shap&quot;: 0.1054, &quot;pp&quot;: 2.6}, {&quot;label&quot;: &quot;Goffin games last 14d&quot;, &quot;shap&quot;: 0.0989, &quot;pp&quot;: 2.5}, {&quot;label&quot;: &quot;Nava wr surf 10&quot;, &quot;shap&quot;: 0.0895, &quot;pp&quot;: 2.2}, {&quot;label&quot;: &quot;Goffin wr surf 10&quot;, &quot;shap&quot;: -0.0702, &quot;pp&quot;: -1.7}]}">
     <div class="match-round">Qualification Round 1</div>
       <div class="match-players">
         <div class="player-block">
@@ -622,9 +624,9 @@
         <div class="prob-p1-fill" style="width:54.0%"></div>
         <div class="prob-p2-fill" style="width:46.0%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 30.1, &quot;p1&quot;: &quot;Roberto Carball\u00e9s Baena&quot;, &quot;p2&quot;: &quot;Alex Mol\u010dan&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Mol\u010dan rest days&quot;, &quot;shap&quot;: 0.5523, &quot;pp&quot;: 11.6}, {&quot;label&quot;: &quot;Baena rest days&quot;, &quot;shap&quot;: -0.5071, &quot;pp&quot;: -10.7}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.3595, &quot;pp&quot;: -7.6}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.2078, &quot;pp&quot;: -4.4}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.129, &quot;pp&quot;: -2.7}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.1101, &quot;pp&quot;: -2.3}, {&quot;label&quot;: &quot;Mol\u010dan games last 14d&quot;, &quot;shap&quot;: -0.0882, &quot;pp&quot;: -1.9}, {&quot;label&quot;: &quot;Mol\u010dan surface matches&quot;, &quot;shap&quot;: 0.0818, &quot;pp&quot;: 1.7}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 30.1, &quot;p1&quot;: &quot;Roberto Carball\u00e9s Baena&quot;, &quot;p2&quot;: &quot;Alex Mol\u010dan&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Mol\u010dan rest days&quot;, &quot;shap&quot;: 0.5523, &quot;pp&quot;: 11.6}, {&quot;label&quot;: &quot;Baena rest days&quot;, &quot;shap&quot;: -0.5071, &quot;pp&quot;: -10.7}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.3595, &quot;pp&quot;: -7.6}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.2078, &quot;pp&quot;: -4.4}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.129, &quot;pp&quot;: -2.7}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.1101, &quot;pp&quot;: -2.3}, {&quot;label&quot;: &quot;Mol\u010dan games last 14d&quot;, &quot;shap&quot;: -0.0882, &quot;pp&quot;: -1.9}, {&quot;label&quot;: &quot;Mol\u010dan surface matches&quot;, &quot;shap&quot;: 0.0818, &quot;pp&quot;: 1.7}]}">
     <div class="match-round">Qualification Round 1</div>
       <div class="match-players">
         <div class="player-block">
@@ -641,8 +643,8 @@
         <div class="prob-p1-fill" style="width:30.1%"></div>
         <div class="prob-p2-fill" style="width:69.9%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
   </div>
 </div>
 <div class="tourn-group">
@@ -651,7 +653,7 @@
     <span class="surface-label surface-Clay">clay</span>
   </div>
   <div class="match-grid">
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 18.4, &quot;p1&quot;: &quot;Alejandro Tabilo&quot;, &quot;p2&quot;: &quot;Joao Fonseca&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Tabilo rest days&quot;, &quot;shap&quot;: -0.4853, &quot;pp&quot;: -7.3}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.3517, &quot;pp&quot;: -5.3}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.1584, &quot;pp&quot;: -2.4}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.1299, &quot;pp&quot;: -2.0}, {&quot;label&quot;: &quot;Tabilo games last 14d&quot;, &quot;shap&quot;: -0.118, &quot;pp&quot;: -1.8}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.0887, &quot;pp&quot;: 1.3}, {&quot;label&quot;: &quot;Fonseca wr surf 10&quot;, &quot;shap&quot;: 0.0847, &quot;pp&quot;: 1.3}, {&quot;label&quot;: &quot;Tabilo sets last 14d&quot;, &quot;shap&quot;: -0.072, &quot;pp&quot;: -1.1}]}">
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 18.4, &quot;p1&quot;: &quot;Alejandro Tabilo&quot;, &quot;p2&quot;: &quot;Joao Fonseca&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Tabilo rest days&quot;, &quot;shap&quot;: -0.4853, &quot;pp&quot;: -7.3}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.3517, &quot;pp&quot;: -5.3}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.1584, &quot;pp&quot;: -2.4}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.1299, &quot;pp&quot;: -2.0}, {&quot;label&quot;: &quot;Tabilo games last 14d&quot;, &quot;shap&quot;: -0.118, &quot;pp&quot;: -1.8}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.0887, &quot;pp&quot;: 1.3}, {&quot;label&quot;: &quot;Fonseca wr surf 10&quot;, &quot;shap&quot;: 0.0847, &quot;pp&quot;: 1.3}, {&quot;label&quot;: &quot;Tabilo sets last 14d&quot;, &quot;shap&quot;: -0.072, &quot;pp&quot;: -1.1}]}">
     <div class="match-round">Round of 32</div>
       <div class="match-players">
         <div class="player-block">
@@ -668,9 +670,9 @@
         <div class="prob-p1-fill" style="width:18.4%"></div>
         <div class="prob-p2-fill" style="width:81.6%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 17.8, &quot;p1&quot;: &quot;Alexander Blockx&quot;, &quot;p2&quot;: &quot;Yannick Hanfmann&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.3756, &quot;pp&quot;: -5.5}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.3709, &quot;pp&quot;: -5.4}, {&quot;label&quot;: &quot;Hanfmann rest days&quot;, &quot;shap&quot;: -0.156, &quot;pp&quot;: -2.3}, {&quot;label&quot;: &quot;Blockx surface pct&quot;, &quot;shap&quot;: -0.1352, &quot;pp&quot;: -2.0}, {&quot;label&quot;: &quot;Hanfmann wr surf 10&quot;, &quot;shap&quot;: 0.1253, &quot;pp&quot;: 1.8}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.1133, &quot;pp&quot;: -1.7}, {&quot;label&quot;: &quot;Blockx wr surf 10&quot;, &quot;shap&quot;: -0.1005, &quot;pp&quot;: -1.5}, {&quot;label&quot;: &quot;Blockx games last 14d&quot;, &quot;shap&quot;: 0.0974, &quot;pp&quot;: 1.4}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 17.8, &quot;p1&quot;: &quot;Alexander Blockx&quot;, &quot;p2&quot;: &quot;Yannick Hanfmann&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.3756, &quot;pp&quot;: -5.5}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.3709, &quot;pp&quot;: -5.4}, {&quot;label&quot;: &quot;Hanfmann rest days&quot;, &quot;shap&quot;: -0.156, &quot;pp&quot;: -2.3}, {&quot;label&quot;: &quot;Blockx surface pct&quot;, &quot;shap&quot;: -0.1352, &quot;pp&quot;: -2.0}, {&quot;label&quot;: &quot;Hanfmann wr surf 10&quot;, &quot;shap&quot;: 0.1253, &quot;pp&quot;: 1.8}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.1133, &quot;pp&quot;: -1.7}, {&quot;label&quot;: &quot;Blockx wr surf 10&quot;, &quot;shap&quot;: -0.1005, &quot;pp&quot;: -1.5}, {&quot;label&quot;: &quot;Blockx games last 14d&quot;, &quot;shap&quot;: 0.0974, &quot;pp&quot;: 1.4}]}">
     <div class="match-round">Round of 32</div>
       <div class="match-players">
         <div class="player-block">
@@ -687,9 +689,9 @@
         <div class="prob-p1-fill" style="width:17.8%"></div>
         <div class="prob-p2-fill" style="width:82.2%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 89.3, &quot;p1&quot;: &quot;Alexander Zverev&quot;, &quot;p2&quot;: &quot;Miomir Kecmanovi\u0107&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.5572, &quot;pp&quot;: 5.3}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.5403, &quot;pp&quot;: 5.2}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.4609, &quot;pp&quot;: 4.4}, {&quot;label&quot;: &quot;Kecmanovi\u0107 rest days&quot;, &quot;shap&quot;: 0.4395, &quot;pp&quot;: 4.2}, {&quot;label&quot;: &quot;Kecmanovi\u0107 surface pct&quot;, &quot;shap&quot;: 0.1197, &quot;pp&quot;: 1.1}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: -0.1141, &quot;pp&quot;: -1.1}, {&quot;label&quot;: &quot;Zverev surface pct&quot;, &quot;shap&quot;: -0.094, &quot;pp&quot;: -0.9}, {&quot;label&quot;: &quot;Zverev games last 14d&quot;, &quot;shap&quot;: 0.0808, &quot;pp&quot;: 0.8}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 89.3, &quot;p1&quot;: &quot;Alexander Zverev&quot;, &quot;p2&quot;: &quot;Miomir Kecmanovi\u0107&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.5572, &quot;pp&quot;: 5.3}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.5403, &quot;pp&quot;: 5.2}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.4609, &quot;pp&quot;: 4.4}, {&quot;label&quot;: &quot;Kecmanovi\u0107 rest days&quot;, &quot;shap&quot;: 0.4395, &quot;pp&quot;: 4.2}, {&quot;label&quot;: &quot;Kecmanovi\u0107 surface pct&quot;, &quot;shap&quot;: 0.1197, &quot;pp&quot;: 1.1}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: -0.1141, &quot;pp&quot;: -1.1}, {&quot;label&quot;: &quot;Zverev surface pct&quot;, &quot;shap&quot;: -0.094, &quot;pp&quot;: -0.9}, {&quot;label&quot;: &quot;Zverev games last 14d&quot;, &quot;shap&quot;: 0.0808, &quot;pp&quot;: 0.8}]}">
     <div class="match-round">Round of 32</div>
       <div class="match-players">
         <div class="player-block">
@@ -706,9 +708,9 @@
         <div class="prob-p1-fill" style="width:89.3%"></div>
         <div class="prob-p2-fill" style="width:10.7%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 2.9, &quot;p1&quot;: &quot;Arthur Rinderknech&quot;, &quot;p2&quot;: &quot;Alex Michelsen&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Michelsen rest days&quot;, &quot;shap&quot;: -0.9056, &quot;pp&quot;: -2.6}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.6799, &quot;pp&quot;: -1.9}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.5188, &quot;pp&quot;: -1.5}, {&quot;label&quot;: &quot;Rinderknech rest days&quot;, &quot;shap&quot;: -0.4805, &quot;pp&quot;: -1.4}, {&quot;label&quot;: &quot;Games played (last 14 days)&quot;, &quot;shap&quot;: -0.313, &quot;pp&quot;: -0.9}, {&quot;label&quot;: &quot;Michelsen games last 14d&quot;, &quot;shap&quot;: -0.3088, &quot;pp&quot;: -0.9}, {&quot;label&quot;: &quot;Michelsen sets last 14d&quot;, &quot;shap&quot;: -0.1925, &quot;pp&quot;: -0.6}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.1769, &quot;pp&quot;: 0.5}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 2.9, &quot;p1&quot;: &quot;Arthur Rinderknech&quot;, &quot;p2&quot;: &quot;Alex Michelsen&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Michelsen rest days&quot;, &quot;shap&quot;: -0.9056, &quot;pp&quot;: -2.6}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.6799, &quot;pp&quot;: -1.9}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.5188, &quot;pp&quot;: -1.5}, {&quot;label&quot;: &quot;Rinderknech rest days&quot;, &quot;shap&quot;: -0.4805, &quot;pp&quot;: -1.4}, {&quot;label&quot;: &quot;Games played (last 14 days)&quot;, &quot;shap&quot;: -0.313, &quot;pp&quot;: -0.9}, {&quot;label&quot;: &quot;Michelsen games last 14d&quot;, &quot;shap&quot;: -0.3088, &quot;pp&quot;: -0.9}, {&quot;label&quot;: &quot;Michelsen sets last 14d&quot;, &quot;shap&quot;: -0.1925, &quot;pp&quot;: -0.6}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.1769, &quot;pp&quot;: 0.5}]}">
     <div class="match-round">Round of 32</div>
       <div class="match-players">
         <div class="player-block">
@@ -725,9 +727,9 @@
         <div class="prob-p1-fill" style="width:2.9%"></div>
         <div class="prob-p2-fill" style="width:97.0%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 60.6, &quot;p1&quot;: &quot;Flavio Cobolli&quot;, &quot;p2&quot;: &quot;Marton Fucsovics&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.6915, &quot;pp&quot;: 16.5}, {&quot;label&quot;: &quot;Cobolli rest days&quot;, &quot;shap&quot;: -0.615, &quot;pp&quot;: -14.7}, {&quot;label&quot;: &quot;Fucsovics rest days&quot;, &quot;shap&quot;: 0.4925, &quot;pp&quot;: 11.8}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.1946, &quot;pp&quot;: 4.6}, {&quot;label&quot;: &quot;Fucsovics surface pct&quot;, &quot;shap&quot;: 0.1304, &quot;pp&quot;: 3.1}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.1186, &quot;pp&quot;: -2.8}, {&quot;label&quot;: &quot;Cobolli games last 14d&quot;, &quot;shap&quot;: -0.1012, &quot;pp&quot;: -2.4}, {&quot;label&quot;: &quot;Cobolli surface pct&quot;, &quot;shap&quot;: -0.0767, &quot;pp&quot;: -1.8}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 60.6, &quot;p1&quot;: &quot;Flavio Cobolli&quot;, &quot;p2&quot;: &quot;Marton Fucsovics&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.6915, &quot;pp&quot;: 16.5}, {&quot;label&quot;: &quot;Cobolli rest days&quot;, &quot;shap&quot;: -0.615, &quot;pp&quot;: -14.7}, {&quot;label&quot;: &quot;Fucsovics rest days&quot;, &quot;shap&quot;: 0.4925, &quot;pp&quot;: 11.8}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.1946, &quot;pp&quot;: 4.6}, {&quot;label&quot;: &quot;Fucsovics surface pct&quot;, &quot;shap&quot;: 0.1304, &quot;pp&quot;: 3.1}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.1186, &quot;pp&quot;: -2.8}, {&quot;label&quot;: &quot;Cobolli games last 14d&quot;, &quot;shap&quot;: -0.1012, &quot;pp&quot;: -2.4}, {&quot;label&quot;: &quot;Cobolli surface pct&quot;, &quot;shap&quot;: -0.0767, &quot;pp&quot;: -1.8}]}">
     <div class="match-round">Round of 32</div>
       <div class="match-players">
         <div class="player-block">
@@ -744,9 +746,9 @@
         <div class="prob-p1-fill" style="width:60.6%"></div>
         <div class="prob-p2-fill" style="width:39.5%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 69.4, &quot;p1&quot;: &quot;F\u00e1bi\u00e1n Marozs\u00e1n&quot;, &quot;p2&quot;: &quot;Stefanos Tsitsipas&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.6689, &quot;pp&quot;: 14.2}, {&quot;label&quot;: &quot;Tsitsipas rest days&quot;, &quot;shap&quot;: 0.4784, &quot;pp&quot;: 10.2}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.4209, &quot;pp&quot;: -8.9}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.1328, &quot;pp&quot;: 2.8}, {&quot;label&quot;: &quot;Marozs\u00e1n surface pct&quot;, &quot;shap&quot;: -0.1324, &quot;pp&quot;: -2.8}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: -0.123, &quot;pp&quot;: -2.6}, {&quot;label&quot;: &quot;Marozs\u00e1n games last 14d&quot;, &quot;shap&quot;: 0.1083, &quot;pp&quot;: 2.3}, {&quot;label&quot;: &quot;Marozs\u00e1n rest days&quot;, &quot;shap&quot;: -0.1058, &quot;pp&quot;: -2.2}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 69.4, &quot;p1&quot;: &quot;F\u00e1bi\u00e1n Marozs\u00e1n&quot;, &quot;p2&quot;: &quot;Stefanos Tsitsipas&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.6689, &quot;pp&quot;: 14.2}, {&quot;label&quot;: &quot;Tsitsipas rest days&quot;, &quot;shap&quot;: 0.4784, &quot;pp&quot;: 10.2}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.4209, &quot;pp&quot;: -8.9}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.1328, &quot;pp&quot;: 2.8}, {&quot;label&quot;: &quot;Marozs\u00e1n surface pct&quot;, &quot;shap&quot;: -0.1324, &quot;pp&quot;: -2.8}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: -0.123, &quot;pp&quot;: -2.6}, {&quot;label&quot;: &quot;Marozs\u00e1n games last 14d&quot;, &quot;shap&quot;: 0.1083, &quot;pp&quot;: 2.3}, {&quot;label&quot;: &quot;Marozs\u00e1n rest days&quot;, &quot;shap&quot;: -0.1058, &quot;pp&quot;: -2.2}]}">
     <div class="match-round">Round of 32</div>
       <div class="match-players">
         <div class="player-block">
@@ -763,9 +765,9 @@
         <div class="prob-p1-fill" style="width:69.4%"></div>
         <div class="prob-p2-fill" style="width:30.6%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 52.1, &quot;p1&quot;: &quot;Hubert Hurkacz&quot;, &quot;p2&quot;: &quot;Alexander Bublik&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.3593, &quot;pp&quot;: -9.0}, {&quot;label&quot;: &quot;Hurkacz rest days&quot;, &quot;shap&quot;: 0.1656, &quot;pp&quot;: 4.1}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.1244, &quot;pp&quot;: 3.1}, {&quot;label&quot;: &quot;Bublik surface pct&quot;, &quot;shap&quot;: 0.1125, &quot;pp&quot;: 2.8}, {&quot;label&quot;: &quot;Hurkacz surface pct&quot;, &quot;shap&quot;: -0.1105, &quot;pp&quot;: -2.8}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.0989, &quot;pp&quot;: 2.5}, {&quot;label&quot;: &quot;Bublik rest days&quot;, &quot;shap&quot;: -0.0988, &quot;pp&quot;: -2.5}, {&quot;label&quot;: &quot;Hurkacz wr surf 10&quot;, &quot;shap&quot;: 0.0848, &quot;pp&quot;: 2.1}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 52.1, &quot;p1&quot;: &quot;Hubert Hurkacz&quot;, &quot;p2&quot;: &quot;Alexander Bublik&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.3593, &quot;pp&quot;: -9.0}, {&quot;label&quot;: &quot;Hurkacz rest days&quot;, &quot;shap&quot;: 0.1656, &quot;pp&quot;: 4.1}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.1244, &quot;pp&quot;: 3.1}, {&quot;label&quot;: &quot;Bublik surface pct&quot;, &quot;shap&quot;: 0.1125, &quot;pp&quot;: 2.8}, {&quot;label&quot;: &quot;Hurkacz surface pct&quot;, &quot;shap&quot;: -0.1105, &quot;pp&quot;: -2.8}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.0989, &quot;pp&quot;: 2.5}, {&quot;label&quot;: &quot;Bublik rest days&quot;, &quot;shap&quot;: -0.0988, &quot;pp&quot;: -2.5}, {&quot;label&quot;: &quot;Hurkacz wr surf 10&quot;, &quot;shap&quot;: 0.0848, &quot;pp&quot;: 2.1}]}">
     <div class="match-round">Round of 32</div>
       <div class="match-players">
         <div class="player-block">
@@ -782,9 +784,9 @@
         <div class="prob-p1-fill" style="width:52.1%"></div>
         <div class="prob-p2-fill" style="width:47.9%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 18.1, &quot;p1&quot;: &quot;Jan-Lennard Struff&quot;, &quot;p2&quot;: &quot;Francisco Cerundolo&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Cerundolo rest days&quot;, &quot;shap&quot;: 0.5989, &quot;pp&quot;: 8.9}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.5694, &quot;pp&quot;: -8.5}, {&quot;label&quot;: &quot;Struff rest days&quot;, &quot;shap&quot;: -0.4823, &quot;pp&quot;: -7.2}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.3483, &quot;pp&quot;: -5.2}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.3391, &quot;pp&quot;: -5.0}, {&quot;label&quot;: &quot;Struff surface pct&quot;, &quot;shap&quot;: -0.1543, &quot;pp&quot;: -2.3}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.1453, &quot;pp&quot;: 2.2}, {&quot;label&quot;: &quot;Cerundolo wr surf 10&quot;, &quot;shap&quot;: 0.092, &quot;pp&quot;: 1.4}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 18.1, &quot;p1&quot;: &quot;Jan-Lennard Struff&quot;, &quot;p2&quot;: &quot;Francisco Cerundolo&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Cerundolo rest days&quot;, &quot;shap&quot;: 0.5989, &quot;pp&quot;: 8.9}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.5694, &quot;pp&quot;: -8.5}, {&quot;label&quot;: &quot;Struff rest days&quot;, &quot;shap&quot;: -0.4823, &quot;pp&quot;: -7.2}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.3483, &quot;pp&quot;: -5.2}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.3391, &quot;pp&quot;: -5.0}, {&quot;label&quot;: &quot;Struff surface pct&quot;, &quot;shap&quot;: -0.1543, &quot;pp&quot;: -2.3}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.1453, &quot;pp&quot;: 2.2}, {&quot;label&quot;: &quot;Cerundolo wr surf 10&quot;, &quot;shap&quot;: 0.092, &quot;pp&quot;: 1.4}]}">
     <div class="match-round">Round of 32</div>
       <div class="match-players">
         <div class="player-block">
@@ -801,9 +803,9 @@
         <div class="prob-p1-fill" style="width:18.1%"></div>
         <div class="prob-p2-fill" style="width:81.9%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 81.4, &quot;p1&quot;: &quot;Justin Engel&quot;, &quot;p2&quot;: &quot;Vit Kop\u0159iva&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Engel rest days&quot;, &quot;shap&quot;: 0.8174, &quot;pp&quot;: 12.4}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.8169, &quot;pp&quot;: 12.4}, {&quot;label&quot;: &quot;Kop\u0159iva rest days&quot;, &quot;shap&quot;: 0.5105, &quot;pp&quot;: 7.7}, {&quot;label&quot;: &quot;Engel games last 14d&quot;, &quot;shap&quot;: -0.1661, &quot;pp&quot;: -2.5}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.1588, &quot;pp&quot;: -2.4}, {&quot;label&quot;: &quot;Ranking ratio&quot;, &quot;shap&quot;: -0.1362, &quot;pp&quot;: -2.1}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.1202, &quot;pp&quot;: -1.8}, {&quot;label&quot;: &quot;Tournament round&quot;, &quot;shap&quot;: 0.107, &quot;pp&quot;: 1.6}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 81.4, &quot;p1&quot;: &quot;Justin Engel&quot;, &quot;p2&quot;: &quot;Vit Kop\u0159iva&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Engel rest days&quot;, &quot;shap&quot;: 0.8174, &quot;pp&quot;: 12.4}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.8169, &quot;pp&quot;: 12.4}, {&quot;label&quot;: &quot;Kop\u0159iva rest days&quot;, &quot;shap&quot;: 0.5105, &quot;pp&quot;: 7.7}, {&quot;label&quot;: &quot;Engel games last 14d&quot;, &quot;shap&quot;: -0.1661, &quot;pp&quot;: -2.5}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.1588, &quot;pp&quot;: -2.4}, {&quot;label&quot;: &quot;Ranking ratio&quot;, &quot;shap&quot;: -0.1362, &quot;pp&quot;: -2.1}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.1202, &quot;pp&quot;: -1.8}, {&quot;label&quot;: &quot;Tournament round&quot;, &quot;shap&quot;: 0.107, &quot;pp&quot;: 1.6}]}">
     <div class="match-round">Round of 32</div>
       <div class="match-players">
         <div class="player-block">
@@ -820,9 +822,9 @@
         <div class="prob-p1-fill" style="width:81.4%"></div>
         <div class="prob-p2-fill" style="width:18.6%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 39.8, &quot;p1&quot;: &quot;Marin \u010cili\u0107&quot;, &quot;p2&quot;: &quot;Daniel Altmaier&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Altmaier rest days&quot;, &quot;shap&quot;: 0.6086, &quot;pp&quot;: 14.6}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.442, &quot;pp&quot;: 10.6}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.4288, &quot;pp&quot;: -10.3}, {&quot;label&quot;: &quot;Games played (last 14 days)&quot;, &quot;shap&quot;: -0.3624, &quot;pp&quot;: -8.7}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.2947, &quot;pp&quot;: 7.1}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.1432, &quot;pp&quot;: -3.4}, {&quot;label&quot;: &quot;\u010cili\u0107 surface pct&quot;, &quot;shap&quot;: -0.1402, &quot;pp&quot;: -3.4}, {&quot;label&quot;: &quot;Altmaier games last 14d&quot;, &quot;shap&quot;: -0.1204, &quot;pp&quot;: -2.9}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 39.8, &quot;p1&quot;: &quot;Marin \u010cili\u0107&quot;, &quot;p2&quot;: &quot;Daniel Altmaier&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Altmaier rest days&quot;, &quot;shap&quot;: 0.6086, &quot;pp&quot;: 14.6}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.442, &quot;pp&quot;: 10.6}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.4288, &quot;pp&quot;: -10.3}, {&quot;label&quot;: &quot;Games played (last 14 days)&quot;, &quot;shap&quot;: -0.3624, &quot;pp&quot;: -8.7}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.2947, &quot;pp&quot;: 7.1}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.1432, &quot;pp&quot;: -3.4}, {&quot;label&quot;: &quot;\u010cili\u0107 surface pct&quot;, &quot;shap&quot;: -0.1402, &quot;pp&quot;: -3.4}, {&quot;label&quot;: &quot;Altmaier games last 14d&quot;, &quot;shap&quot;: -0.1204, &quot;pp&quot;: -2.9}]}">
     <div class="match-round">Round of 32</div>
       <div class="match-players">
         <div class="player-block">
@@ -839,9 +841,9 @@
         <div class="prob-p1-fill" style="width:39.8%"></div>
         <div class="prob-p2-fill" style="width:60.2%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 64.9, &quot;p1&quot;: &quot;Tallon Griekspoor&quot;, &quot;p2&quot;: &quot;Denis Shapovalov&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Griekspoor rest days&quot;, &quot;shap&quot;: -0.7314, &quot;pp&quot;: -16.7}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.6197, &quot;pp&quot;: 14.1}, {&quot;label&quot;: &quot;Shapovalov rest days&quot;, &quot;shap&quot;: 0.538, &quot;pp&quot;: 12.3}, {&quot;label&quot;: &quot;Shapovalov surface pct&quot;, &quot;shap&quot;: 0.1097, &quot;pp&quot;: 2.5}, {&quot;label&quot;: &quot;Griekspoor surface pct&quot;, &quot;shap&quot;: -0.103, &quot;pp&quot;: -2.3}, {&quot;label&quot;: &quot;Shapovalov net serve edge&quot;, &quot;shap&quot;: 0.0953, &quot;pp&quot;: 2.2}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.0899, &quot;pp&quot;: 2.0}, {&quot;label&quot;: &quot;Shapovalov wr surf 10&quot;, &quot;shap&quot;: -0.0465, &quot;pp&quot;: -1.1}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 64.9, &quot;p1&quot;: &quot;Tallon Griekspoor&quot;, &quot;p2&quot;: &quot;Denis Shapovalov&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Griekspoor rest days&quot;, &quot;shap&quot;: -0.7314, &quot;pp&quot;: -16.7}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.6197, &quot;pp&quot;: 14.1}, {&quot;label&quot;: &quot;Shapovalov rest days&quot;, &quot;shap&quot;: 0.538, &quot;pp&quot;: 12.3}, {&quot;label&quot;: &quot;Shapovalov surface pct&quot;, &quot;shap&quot;: 0.1097, &quot;pp&quot;: 2.5}, {&quot;label&quot;: &quot;Griekspoor surface pct&quot;, &quot;shap&quot;: -0.103, &quot;pp&quot;: -2.3}, {&quot;label&quot;: &quot;Shapovalov net serve edge&quot;, &quot;shap&quot;: 0.0953, &quot;pp&quot;: 2.2}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.0899, &quot;pp&quot;: 2.0}, {&quot;label&quot;: &quot;Shapovalov wr surf 10&quot;, &quot;shap&quot;: -0.0465, &quot;pp&quot;: -1.1}]}">
     <div class="match-round">Round of 32</div>
       <div class="match-players">
         <div class="player-block">
@@ -858,9 +860,9 @@
         <div class="prob-p1-fill" style="width:64.9%"></div>
         <div class="prob-p2-fill" style="width:35.1%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 35.0, &quot;p1&quot;: &quot;Zhizhen Zhang&quot;, &quot;p2&quot;: &quot;Luciano Darderi&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Zhang rest days&quot;, &quot;shap&quot;: -0.5641, &quot;pp&quot;: -12.8}, {&quot;label&quot;: &quot;Darderi rest days&quot;, &quot;shap&quot;: 0.4618, &quot;pp&quot;: 10.5}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.3189, &quot;pp&quot;: -7.3}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.257, &quot;pp&quot;: 5.8}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.1839, &quot;pp&quot;: -4.2}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.1509, &quot;pp&quot;: -3.4}, {&quot;label&quot;: &quot;Zhang surface pct&quot;, &quot;shap&quot;: -0.1358, &quot;pp&quot;: -3.1}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.1077, &quot;pp&quot;: 2.5}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 35.0, &quot;p1&quot;: &quot;Zhizhen Zhang&quot;, &quot;p2&quot;: &quot;Luciano Darderi&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Zhang rest days&quot;, &quot;shap&quot;: -0.5641, &quot;pp&quot;: -12.8}, {&quot;label&quot;: &quot;Darderi rest days&quot;, &quot;shap&quot;: 0.4618, &quot;pp&quot;: 10.5}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.3189, &quot;pp&quot;: -7.3}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.257, &quot;pp&quot;: 5.8}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.1839, &quot;pp&quot;: -4.2}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.1509, &quot;pp&quot;: -3.4}, {&quot;label&quot;: &quot;Zhang surface pct&quot;, &quot;shap&quot;: -0.1358, &quot;pp&quot;: -3.1}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.1077, &quot;pp&quot;: 2.5}]}">
     <div class="match-round">Round of 32</div>
       <div class="match-players">
         <div class="player-block">
@@ -877,8 +879,8 @@
         <div class="prob-p1-fill" style="width:35.0%"></div>
         <div class="prob-p2-fill" style="width:65.0%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
   </div>
 </div>
 <div class="tourn-group">
@@ -887,7 +889,7 @@
     <span class="surface-label surface-Clay">clay</span>
   </div>
   <div class="match-grid">
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 46.1, &quot;p1&quot;: &quot;Aleksandar Vukic&quot;, &quot;p2&quot;: &quot;Otto Virtanen&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Vukic rest days&quot;, &quot;shap&quot;: -0.6321, &quot;pp&quot;: -15.7}, {&quot;label&quot;: &quot;Virtanen rest days&quot;, &quot;shap&quot;: 0.5784, &quot;pp&quot;: 14.4}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.1898, &quot;pp&quot;: -4.7}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.1863, &quot;pp&quot;: -4.6}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.1461, &quot;pp&quot;: 3.6}, {&quot;label&quot;: &quot;Vukic surface pct&quot;, &quot;shap&quot;: -0.1359, &quot;pp&quot;: -3.4}, {&quot;label&quot;: &quot;Virtanen surface pct&quot;, &quot;shap&quot;: 0.092, &quot;pp&quot;: 2.3}, {&quot;label&quot;: &quot;Vukic games last 14d&quot;, &quot;shap&quot;: 0.0691, &quot;pp&quot;: 1.7}]}">
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 46.1, &quot;p1&quot;: &quot;Aleksandar Vukic&quot;, &quot;p2&quot;: &quot;Otto Virtanen&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Vukic rest days&quot;, &quot;shap&quot;: -0.6321, &quot;pp&quot;: -15.7}, {&quot;label&quot;: &quot;Virtanen rest days&quot;, &quot;shap&quot;: 0.5784, &quot;pp&quot;: 14.4}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.1898, &quot;pp&quot;: -4.7}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.1863, &quot;pp&quot;: -4.6}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.1461, &quot;pp&quot;: 3.6}, {&quot;label&quot;: &quot;Vukic surface pct&quot;, &quot;shap&quot;: -0.1359, &quot;pp&quot;: -3.4}, {&quot;label&quot;: &quot;Virtanen surface pct&quot;, &quot;shap&quot;: 0.092, &quot;pp&quot;: 2.3}, {&quot;label&quot;: &quot;Vukic games last 14d&quot;, &quot;shap&quot;: 0.0691, &quot;pp&quot;: 1.7}]}">
     <div class="match-round">Qualification Round 1</div>
       <div class="match-players">
         <div class="player-block">
@@ -904,9 +906,9 @@
         <div class="prob-p1-fill" style="width:46.1%"></div>
         <div class="prob-p2-fill" style="width:53.9%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 8.2, &quot;p1&quot;: &quot;Max Alcala Gurri&quot;, &quot;p2&quot;: &quot;Alexandre Muller&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Muller rest days&quot;, &quot;shap&quot;: 0.5721, &quot;pp&quot;: 4.3}, {&quot;label&quot;: &quot;Gurri rest days&quot;, &quot;shap&quot;: -0.5347, &quot;pp&quot;: -4.0}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.4781, &quot;pp&quot;: -3.6}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.3184, &quot;pp&quot;: -2.4}, {&quot;label&quot;: &quot;Gurri total matches&quot;, &quot;shap&quot;: -0.3141, &quot;pp&quot;: -2.4}, {&quot;label&quot;: &quot;Gurri surface matches&quot;, &quot;shap&quot;: -0.3081, &quot;pp&quot;: -2.3}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.2497, &quot;pp&quot;: -1.9}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.2235, &quot;pp&quot;: -1.7}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 8.2, &quot;p1&quot;: &quot;Max Alcala Gurri&quot;, &quot;p2&quot;: &quot;Alexandre Muller&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Muller rest days&quot;, &quot;shap&quot;: 0.5721, &quot;pp&quot;: 4.3}, {&quot;label&quot;: &quot;Gurri rest days&quot;, &quot;shap&quot;: -0.5347, &quot;pp&quot;: -4.0}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.4781, &quot;pp&quot;: -3.6}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.3184, &quot;pp&quot;: -2.4}, {&quot;label&quot;: &quot;Gurri total matches&quot;, &quot;shap&quot;: -0.3141, &quot;pp&quot;: -2.4}, {&quot;label&quot;: &quot;Gurri surface matches&quot;, &quot;shap&quot;: -0.3081, &quot;pp&quot;: -2.3}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.2497, &quot;pp&quot;: -1.9}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.2235, &quot;pp&quot;: -1.7}]}">
     <div class="match-round">Qualification Round 1</div>
       <div class="match-players">
         <div class="player-block">
@@ -923,9 +925,9 @@
         <div class="prob-p1-fill" style="width:8.2%"></div>
         <div class="prob-p2-fill" style="width:91.8%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 95.2, &quot;p1&quot;: &quot;Marco Trungelliti&quot;, &quot;p2&quot;: &quot;Nicolai Budkov Kjaer&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Trungelliti rest days&quot;, &quot;shap&quot;: 0.8663, &quot;pp&quot;: 3.9}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.6859, &quot;pp&quot;: 3.1}, {&quot;label&quot;: &quot;Kjaer rest days&quot;, &quot;shap&quot;: 0.5495, &quot;pp&quot;: 2.5}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.445, &quot;pp&quot;: 2.0}, {&quot;label&quot;: &quot;Games played (last 14 days)&quot;, &quot;shap&quot;: 0.2701, &quot;pp&quot;: 1.2}, {&quot;label&quot;: &quot;Trungelliti wr surf 10&quot;, &quot;shap&quot;: -0.2546, &quot;pp&quot;: -1.2}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: -0.1732, &quot;pp&quot;: -0.8}, {&quot;label&quot;: &quot;Trungelliti games last 14d&quot;, &quot;shap&quot;: 0.1715, &quot;pp&quot;: 0.8}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 95.2, &quot;p1&quot;: &quot;Marco Trungelliti&quot;, &quot;p2&quot;: &quot;Nicolai Budkov Kjaer&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Trungelliti rest days&quot;, &quot;shap&quot;: 0.8663, &quot;pp&quot;: 3.9}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.6859, &quot;pp&quot;: 3.1}, {&quot;label&quot;: &quot;Kjaer rest days&quot;, &quot;shap&quot;: 0.5495, &quot;pp&quot;: 2.5}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.445, &quot;pp&quot;: 2.0}, {&quot;label&quot;: &quot;Games played (last 14 days)&quot;, &quot;shap&quot;: 0.2701, &quot;pp&quot;: 1.2}, {&quot;label&quot;: &quot;Trungelliti wr surf 10&quot;, &quot;shap&quot;: -0.2546, &quot;pp&quot;: -1.2}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: -0.1732, &quot;pp&quot;: -0.8}, {&quot;label&quot;: &quot;Trungelliti games last 14d&quot;, &quot;shap&quot;: 0.1715, &quot;pp&quot;: 0.8}]}">
     <div class="match-round">Qualification Round 1</div>
       <div class="match-players">
         <div class="player-block">
@@ -942,9 +944,9 @@
         <div class="prob-p1-fill" style="width:95.2%"></div>
         <div class="prob-p2-fill" style="width:4.8%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 63.4, &quot;p1&quot;: &quot;Jesper De Jong&quot;, &quot;p2&quot;: &quot;Benjamin Bonzi&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Jong rest days&quot;, &quot;shap&quot;: -0.8092, &quot;pp&quot;: -18.8}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.649, &quot;pp&quot;: 15.1}, {&quot;label&quot;: &quot;Bonzi rest days&quot;, &quot;shap&quot;: 0.4793, &quot;pp&quot;: 11.1}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.184, &quot;pp&quot;: 4.3}, {&quot;label&quot;: &quot;Bonzi surface pct&quot;, &quot;shap&quot;: 0.1609, &quot;pp&quot;: 3.7}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.1288, &quot;pp&quot;: -3.0}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.1071, &quot;pp&quot;: 2.5}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.0729, &quot;pp&quot;: -1.7}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 63.4, &quot;p1&quot;: &quot;Jesper De Jong&quot;, &quot;p2&quot;: &quot;Benjamin Bonzi&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Jong rest days&quot;, &quot;shap&quot;: -0.8092, &quot;pp&quot;: -18.8}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.649, &quot;pp&quot;: 15.1}, {&quot;label&quot;: &quot;Bonzi rest days&quot;, &quot;shap&quot;: 0.4793, &quot;pp&quot;: 11.1}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.184, &quot;pp&quot;: 4.3}, {&quot;label&quot;: &quot;Bonzi surface pct&quot;, &quot;shap&quot;: 0.1609, &quot;pp&quot;: 3.7}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.1288, &quot;pp&quot;: -3.0}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.1071, &quot;pp&quot;: 2.5}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.0729, &quot;pp&quot;: -1.7}]}">
     <div class="match-round">Qualification Round 1</div>
       <div class="match-players">
         <div class="player-block">
@@ -961,9 +963,9 @@
         <div class="prob-p1-fill" style="width:63.4%"></div>
         <div class="prob-p2-fill" style="width:36.6%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 46.2, &quot;p1&quot;: &quot;Juan Manuel Cerundolo&quot;, &quot;p2&quot;: &quot;Giulio Zeppieri&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Zeppieri rest days&quot;, &quot;shap&quot;: -0.6462, &quot;pp&quot;: -16.1}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.3049, &quot;pp&quot;: -7.6}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.1955, &quot;pp&quot;: 4.9}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.1894, &quot;pp&quot;: 4.7}, {&quot;label&quot;: &quot;Cerundolo rest days&quot;, &quot;shap&quot;: 0.1173, &quot;pp&quot;: 2.9}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.1092, &quot;pp&quot;: 2.7}, {&quot;label&quot;: &quot;Cerundolo games last 14d&quot;, &quot;shap&quot;: 0.0652, &quot;pp&quot;: 1.6}, {&quot;label&quot;: &quot;Zeppieri surface pct&quot;, &quot;shap&quot;: -0.0618, &quot;pp&quot;: -1.5}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 46.2, &quot;p1&quot;: &quot;Juan Manuel Cerundolo&quot;, &quot;p2&quot;: &quot;Giulio Zeppieri&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Zeppieri rest days&quot;, &quot;shap&quot;: -0.6462, &quot;pp&quot;: -16.1}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.3049, &quot;pp&quot;: -7.6}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.1955, &quot;pp&quot;: 4.9}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.1894, &quot;pp&quot;: 4.7}, {&quot;label&quot;: &quot;Cerundolo rest days&quot;, &quot;shap&quot;: 0.1173, &quot;pp&quot;: 2.9}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.1092, &quot;pp&quot;: 2.7}, {&quot;label&quot;: &quot;Cerundolo games last 14d&quot;, &quot;shap&quot;: 0.0652, &quot;pp&quot;: 1.6}, {&quot;label&quot;: &quot;Zeppieri surface pct&quot;, &quot;shap&quot;: -0.0618, &quot;pp&quot;: -1.5}]}">
     <div class="match-round">Qualification Round 1</div>
       <div class="match-players">
         <div class="player-block">
@@ -980,9 +982,9 @@
         <div class="prob-p1-fill" style="width:46.2%"></div>
         <div class="prob-p2-fill" style="width:53.8%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 79.2, &quot;p1&quot;: &quot;Pedro Martinez&quot;, &quot;p2&quot;: &quot;Pablo Carre\u00f1o Busta&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.4766, &quot;pp&quot;: 7.8}, {&quot;label&quot;: &quot;Busta rest days&quot;, &quot;shap&quot;: 0.4359, &quot;pp&quot;: 7.2}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.1334, &quot;pp&quot;: 2.2}, {&quot;label&quot;: &quot;Martinez wr surf 10&quot;, &quot;shap&quot;: 0.0872, &quot;pp&quot;: 1.4}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.0805, &quot;pp&quot;: 1.3}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.0672, &quot;pp&quot;: -1.1}, {&quot;label&quot;: &quot;Martinez games last 14d&quot;, &quot;shap&quot;: -0.0553, &quot;pp&quot;: -0.9}, {&quot;label&quot;: &quot;Busta wr surf 10&quot;, &quot;shap&quot;: -0.0517, &quot;pp&quot;: -0.9}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 79.2, &quot;p1&quot;: &quot;Pedro Martinez&quot;, &quot;p2&quot;: &quot;Pablo Carre\u00f1o Busta&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.4766, &quot;pp&quot;: 7.8}, {&quot;label&quot;: &quot;Busta rest days&quot;, &quot;shap&quot;: 0.4359, &quot;pp&quot;: 7.2}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.1334, &quot;pp&quot;: 2.2}, {&quot;label&quot;: &quot;Martinez wr surf 10&quot;, &quot;shap&quot;: 0.0872, &quot;pp&quot;: 1.4}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.0805, &quot;pp&quot;: 1.3}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.0672, &quot;pp&quot;: -1.1}, {&quot;label&quot;: &quot;Martinez games last 14d&quot;, &quot;shap&quot;: -0.0553, &quot;pp&quot;: -0.9}, {&quot;label&quot;: &quot;Busta wr surf 10&quot;, &quot;shap&quot;: -0.0517, &quot;pp&quot;: -0.9}]}">
     <div class="match-round">Qualification Round 1</div>
       <div class="match-players">
         <div class="player-block">
@@ -999,9 +1001,9 @@
         <div class="prob-p1-fill" style="width:79.2%"></div>
         <div class="prob-p2-fill" style="width:20.8%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 95.1, &quot;p1&quot;: &quot;Sebastian Ofner&quot;, &quot;p2&quot;: &quot;Alejo Sanchez Quilez&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.9633, &quot;pp&quot;: 4.5}, {&quot;label&quot;: &quot;Ofner rest days&quot;, &quot;shap&quot;: 0.9424, &quot;pp&quot;: 4.4}, {&quot;label&quot;: &quot;Quilez rest days&quot;, &quot;shap&quot;: 0.6681, &quot;pp&quot;: 3.1}, {&quot;label&quot;: &quot;Tournament round&quot;, &quot;shap&quot;: 0.122, &quot;pp&quot;: 0.6}, {&quot;label&quot;: &quot;Ofner wr surf 10&quot;, &quot;shap&quot;: 0.1182, &quot;pp&quot;: 0.5}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.1076, &quot;pp&quot;: 0.5}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.0787, &quot;pp&quot;: -0.4}, {&quot;label&quot;: &quot;Tournament tier&quot;, &quot;shap&quot;: 0.0643, &quot;pp&quot;: 0.3}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 95.1, &quot;p1&quot;: &quot;Sebastian Ofner&quot;, &quot;p2&quot;: &quot;Alejo Sanchez Quilez&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.9633, &quot;pp&quot;: 4.5}, {&quot;label&quot;: &quot;Ofner rest days&quot;, &quot;shap&quot;: 0.9424, &quot;pp&quot;: 4.4}, {&quot;label&quot;: &quot;Quilez rest days&quot;, &quot;shap&quot;: 0.6681, &quot;pp&quot;: 3.1}, {&quot;label&quot;: &quot;Tournament round&quot;, &quot;shap&quot;: 0.122, &quot;pp&quot;: 0.6}, {&quot;label&quot;: &quot;Ofner wr surf 10&quot;, &quot;shap&quot;: 0.1182, &quot;pp&quot;: 0.5}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.1076, &quot;pp&quot;: 0.5}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.0787, &quot;pp&quot;: -0.4}, {&quot;label&quot;: &quot;Tournament tier&quot;, &quot;shap&quot;: 0.0643, &quot;pp&quot;: 0.3}]}">
     <div class="match-round">Qualification Round 1</div>
       <div class="match-players">
         <div class="player-block">
@@ -1018,9 +1020,9 @@
         <div class="prob-p1-fill" style="width:95.1%"></div>
         <div class="prob-p2-fill" style="width:4.9%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 5.1, &quot;p1&quot;: &quot;Hamad Medjedovi\u0107&quot;, &quot;p2&quot;: &quot;Vilius Gaubas&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -1.0319, &quot;pp&quot;: -5.0}, {&quot;label&quot;: &quot;Gaubas rest days&quot;, &quot;shap&quot;: -0.8432, &quot;pp&quot;: -4.1}, {&quot;label&quot;: &quot;Medjedovi\u0107 rest days&quot;, &quot;shap&quot;: -0.689, &quot;pp&quot;: -3.4}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.1952, &quot;pp&quot;: 1.0}, {&quot;label&quot;: &quot;Medjedovi\u0107 surface pct&quot;, &quot;shap&quot;: -0.1558, &quot;pp&quot;: -0.8}, {&quot;label&quot;: &quot;Gaubas games last 14d&quot;, &quot;shap&quot;: 0.1539, &quot;pp&quot;: 0.8}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.1514, &quot;pp&quot;: -0.7}, {&quot;label&quot;: &quot;Tournament round&quot;, &quot;shap&quot;: -0.1166, &quot;pp&quot;: -0.6}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 5.1, &quot;p1&quot;: &quot;Hamad Medjedovi\u0107&quot;, &quot;p2&quot;: &quot;Vilius Gaubas&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -1.0319, &quot;pp&quot;: -5.0}, {&quot;label&quot;: &quot;Gaubas rest days&quot;, &quot;shap&quot;: -0.8432, &quot;pp&quot;: -4.1}, {&quot;label&quot;: &quot;Medjedovi\u0107 rest days&quot;, &quot;shap&quot;: -0.689, &quot;pp&quot;: -3.4}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.1952, &quot;pp&quot;: 1.0}, {&quot;label&quot;: &quot;Medjedovi\u0107 surface pct&quot;, &quot;shap&quot;: -0.1558, &quot;pp&quot;: -0.8}, {&quot;label&quot;: &quot;Gaubas games last 14d&quot;, &quot;shap&quot;: 0.1539, &quot;pp&quot;: 0.8}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.1514, &quot;pp&quot;: -0.7}, {&quot;label&quot;: &quot;Tournament round&quot;, &quot;shap&quot;: -0.1166, &quot;pp&quot;: -0.6}]}">
     <div class="match-round">Qualification Round 1</div>
       <div class="match-players">
         <div class="player-block">
@@ -1037,9 +1039,9 @@
         <div class="prob-p1-fill" style="width:5.1%"></div>
         <div class="prob-p2-fill" style="width:94.8%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 77.8, &quot;p1&quot;: &quot;Matteo Arnaldi&quot;, &quot;p2&quot;: &quot;Quentin Halys&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Halys rest days&quot;, &quot;shap&quot;: 0.6857, &quot;pp&quot;: 11.8}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.611, &quot;pp&quot;: 10.6}, {&quot;label&quot;: &quot;Games played (last 14 days)&quot;, &quot;shap&quot;: -0.2232, &quot;pp&quot;: -3.9}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.193, &quot;pp&quot;: -3.3}, {&quot;label&quot;: &quot;Halys games last 14d&quot;, &quot;shap&quot;: -0.1908, &quot;pp&quot;: -3.3}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.1746, &quot;pp&quot;: 3.0}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.1618, &quot;pp&quot;: 2.8}, {&quot;label&quot;: &quot;Arnaldi games last 14d&quot;, &quot;shap&quot;: 0.1324, &quot;pp&quot;: 2.3}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 77.8, &quot;p1&quot;: &quot;Matteo Arnaldi&quot;, &quot;p2&quot;: &quot;Quentin Halys&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Halys rest days&quot;, &quot;shap&quot;: 0.6857, &quot;pp&quot;: 11.8}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.611, &quot;pp&quot;: 10.6}, {&quot;label&quot;: &quot;Games played (last 14 days)&quot;, &quot;shap&quot;: -0.2232, &quot;pp&quot;: -3.9}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.193, &quot;pp&quot;: -3.3}, {&quot;label&quot;: &quot;Halys games last 14d&quot;, &quot;shap&quot;: -0.1908, &quot;pp&quot;: -3.3}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.1746, &quot;pp&quot;: 3.0}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.1618, &quot;pp&quot;: 2.8}, {&quot;label&quot;: &quot;Arnaldi games last 14d&quot;, &quot;shap&quot;: 0.1324, &quot;pp&quot;: 2.3}]}">
     <div class="match-round">Qualification Round 1</div>
       <div class="match-players">
         <div class="player-block">
@@ -1056,9 +1058,9 @@
         <div class="prob-p1-fill" style="width:77.8%"></div>
         <div class="prob-p2-fill" style="width:22.2%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 8.4, &quot;p1&quot;: &quot;Arthur Gea&quot;, &quot;p2&quot;: &quot;Patrick Kypson&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Kypson rest days&quot;, &quot;shap&quot;: -0.8535, &quot;pp&quot;: -6.6}, {&quot;label&quot;: &quot;Gea rest days&quot;, &quot;shap&quot;: -0.5104, &quot;pp&quot;: -3.9}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.485, &quot;pp&quot;: -3.7}, {&quot;label&quot;: &quot;Gea surface matches&quot;, &quot;shap&quot;: -0.3369, &quot;pp&quot;: -2.6}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.1812, &quot;pp&quot;: 1.4}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.1696, &quot;pp&quot;: 1.3}, {&quot;label&quot;: &quot;Kypson games last 14d&quot;, &quot;shap&quot;: 0.1154, &quot;pp&quot;: 0.9}, {&quot;label&quot;: &quot;Kypson wr surf 10&quot;, &quot;shap&quot;: -0.1121, &quot;pp&quot;: -0.9}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 8.4, &quot;p1&quot;: &quot;Arthur Gea&quot;, &quot;p2&quot;: &quot;Patrick Kypson&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Kypson rest days&quot;, &quot;shap&quot;: -0.8535, &quot;pp&quot;: -6.6}, {&quot;label&quot;: &quot;Gea rest days&quot;, &quot;shap&quot;: -0.5104, &quot;pp&quot;: -3.9}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.485, &quot;pp&quot;: -3.7}, {&quot;label&quot;: &quot;Gea surface matches&quot;, &quot;shap&quot;: -0.3369, &quot;pp&quot;: -2.6}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.1812, &quot;pp&quot;: 1.4}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.1696, &quot;pp&quot;: 1.3}, {&quot;label&quot;: &quot;Kypson games last 14d&quot;, &quot;shap&quot;: 0.1154, &quot;pp&quot;: 0.9}, {&quot;label&quot;: &quot;Kypson wr surf 10&quot;, &quot;shap&quot;: -0.1121, &quot;pp&quot;: -0.9}]}">
     <div class="match-round">Qualification Round 1</div>
       <div class="match-players">
         <div class="player-block">
@@ -1075,9 +1077,9 @@
         <div class="prob-p1-fill" style="width:8.4%"></div>
         <div class="prob-p2-fill" style="width:91.6%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
-    <button class="match-card" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 47.8, &quot;p1&quot;: &quot;Ethan Quinn&quot;, &quot;p2&quot;: &quot;Daniel Merida&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Quinn rest days&quot;, &quot;shap&quot;: -0.6772, &quot;pp&quot;: -16.9}, {&quot;label&quot;: &quot;Merida rest days&quot;, &quot;shap&quot;: 0.6288, &quot;pp&quot;: 15.7}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.4888, &quot;pp&quot;: 12.2}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.2787, &quot;pp&quot;: -7.0}, {&quot;label&quot;: &quot;Games played (last 14 days)&quot;, &quot;shap&quot;: -0.2704, &quot;pp&quot;: -6.7}, {&quot;label&quot;: &quot;Quinn surface pct&quot;, &quot;shap&quot;: -0.1383, &quot;pp&quot;: -3.5}, {&quot;label&quot;: &quot;Merida wr surf 10&quot;, &quot;shap&quot;: 0.1378, &quot;pp&quot;: 3.4}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.1226, &quot;pp&quot;: 3.1}]}">
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
+    <div class="match-card" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 47.8, &quot;p1&quot;: &quot;Ethan Quinn&quot;, &quot;p2&quot;: &quot;Daniel Merida&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Quinn rest days&quot;, &quot;shap&quot;: -0.6772, &quot;pp&quot;: -16.9}, {&quot;label&quot;: &quot;Merida rest days&quot;, &quot;shap&quot;: 0.6288, &quot;pp&quot;: 15.7}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.4888, &quot;pp&quot;: 12.2}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.2787, &quot;pp&quot;: -7.0}, {&quot;label&quot;: &quot;Games played (last 14 days)&quot;, &quot;shap&quot;: -0.2704, &quot;pp&quot;: -6.7}, {&quot;label&quot;: &quot;Quinn surface pct&quot;, &quot;shap&quot;: -0.1383, &quot;pp&quot;: -3.5}, {&quot;label&quot;: &quot;Merida wr surf 10&quot;, &quot;shap&quot;: 0.1378, &quot;pp&quot;: 3.4}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.1226, &quot;pp&quot;: 3.1}]}">
     <div class="match-round">Qualification Final</div>
       <div class="match-players">
         <div class="player-block">
@@ -1094,8 +1096,8 @@
         <div class="prob-p1-fill" style="width:47.8%"></div>
         <div class="prob-p2-fill" style="width:52.2%"></div>
       </div>
-<span class=\"shap-hint\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 12 12\" fill=\"none\"><circle cx=\"6\" cy=\"6\" r=\"5.5\" stroke=\"currentColor\"/><path d=\"M6 5.5v3M6 3.5h.01\" stroke=\"currentColor\" stroke-linecap=\"round\"/></svg>Why this prediction?</span>
-    </button>
+<button class="shap-trigger" onclick="openShapModal(this.closest('[data-shap]'))"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction?</button>
+    </div>
   </div>
 </div>
   </div>
