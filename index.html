@@ -427,8 +427,6 @@
     .player-block.right { text-align: left; align-items: flex-start; }
     .vs-label { display: none; }
     .player-name { font-size: 14px; }
-    /* Bankroll stat boxes */
-    .stat-value { font-size: 16px; }
   }
 
 @media (max-width: 600px) {
@@ -449,30 +447,6 @@
     margin-bottom: 20px;
   }
 
-  /* ── Kalshi edges ── */
-  .kalshi-yes {
-    display: inline-block;
-    padding: 1px 7px;
-    border-radius: 3px;
-    font-size: 11px;
-    font-weight: 500;
-    background: rgba(122,158,138,.18);
-    color: var(--accent2);
-  }
-  .kalshi-no {
-    display: inline-block;
-    padding: 1px 7px;
-    border-radius: 3px;
-    font-size: 11px;
-    font-weight: 500;
-    background: rgba(196,149,106,.18);
-    color: var(--accent);
-  }
-  .kalshi-warn {
-    font-size: 10px;
-    color: #b87070;
-    margin-left: 4px;
-  }
 </style>
 </head>
 <!-- no-js class removed by inline script below; fallback for Quick Look / no-JS -->
@@ -483,7 +457,7 @@
   <header class="site-header">
     <div class="site-header-left">
       <h1>ATP Tennis Predictions</h1>
-      <p class="subtitle">XGBoost · 126 features · May 28, 2026 · Generated 2026-05-29 01:46 UTC</p>
+      <p class="subtitle">XGBoost · 126 features · May 28, 2026 · Generated 2026-05-29 02:49 UTC</p>
     </div>
     <a class="report-link" href="model_report.pdf" target="_blank">Model Report ↗</a>
   </header>
@@ -509,6 +483,255 @@
 
   <p class="section-label">Upcoming Matches</p>
   <div id="upcoming-section">
+<div class="tourn-group">
+  <div class="tourn-header">
+    <span class="tourn-name">Barcelona, Spain</span>
+    <span class="surface-label surface-Clay">clay</span>
+  </div>
+  <div class="match-grid">
+    <div class="match-card">
+    <div class="match-round">Round of 16</div>
+      <div class="match-players">
+        <div class="player-block">
+          <span class="player-name">Carlos Alcaraz</span>
+          <span class="player-prob">84.0%</span>
+        </div>
+        <span class="vs-label">vs</span>
+        <div class="player-block right">
+          <span class="player-name">Tomaš Machač</span>
+          <span class="player-prob">16.0%</span>
+        </div>
+      </div>
+      <div class="prob-bar">
+        <div class="prob-p1-fill" style="width:84.0%"></div>
+        <div class="prob-p2-fill" style="width:16.0%"></div>
+      </div>
+      <button class="shap-trigger" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 84.0, &quot;p1&quot;: &quot;Carlos Alcaraz&quot;, &quot;p2&quot;: &quot;Toma\u0161 Macha\u010d&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.777, &quot;pp&quot;: 10.4}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.6482, &quot;pp&quot;: 8.7}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: -0.1564, &quot;pp&quot;: -2.1}, {&quot;label&quot;: &quot;Macha\u010d rest days&quot;, &quot;shap&quot;: -0.1551, &quot;pp&quot;: -2.1}, {&quot;label&quot;: &quot;Macha\u010d surface pct&quot;, &quot;shap&quot;: 0.1346, &quot;pp&quot;: 1.8}, {&quot;label&quot;: &quot;Alcaraz wr surf 10&quot;, &quot;shap&quot;: -0.0819, &quot;pp&quot;: -1.1}, {&quot;label&quot;: &quot;Clay form \u2014 last 30&quot;, &quot;shap&quot;: -0.0772, &quot;pp&quot;: -1.0}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.0733, &quot;pp&quot;: 1.0}]}"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction? ›</button>
+    </div>
+  </div>
+</div>
+<div class="tourn-group">
+  <div class="tourn-header">
+    <span class="tourn-name">Madrid, Spain, Qualifying</span>
+    <span class="surface-label surface-Clay">clay</span>
+  </div>
+  <div class="match-grid">
+    <div class="match-card">
+    <div class="match-round">Qualification Final</div>
+      <div class="match-players">
+        <div class="player-block">
+          <span class="player-name">Jaime Faria</span>
+          <span class="player-prob">72.6%</span>
+        </div>
+        <span class="vs-label">vs</span>
+        <div class="player-block right">
+          <span class="player-name">Lloyd Harris</span>
+          <span class="player-prob">27.4%</span>
+        </div>
+      </div>
+      <div class="prob-bar">
+        <div class="prob-p1-fill" style="width:72.6%"></div>
+        <div class="prob-p2-fill" style="width:27.4%"></div>
+      </div>
+      <button class="shap-trigger" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 72.6, &quot;p1&quot;: &quot;Jaime Faria&quot;, &quot;p2&quot;: &quot;Lloyd Harris&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.2681, &quot;pp&quot;: 5.3}, {&quot;label&quot;: &quot;Games played (last 14 days)&quot;, &quot;shap&quot;: 0.2479, &quot;pp&quot;: 4.9}, {&quot;label&quot;: &quot;Faria wr surf 10&quot;, &quot;shap&quot;: -0.2458, &quot;pp&quot;: -4.9}, {&quot;label&quot;: &quot;Faria bp conv rate 30&quot;, &quot;shap&quot;: 0.1584, &quot;pp&quot;: 3.2}, {&quot;label&quot;: &quot;Faria rest days&quot;, &quot;shap&quot;: 0.1461, &quot;pp&quot;: 2.9}, {&quot;label&quot;: &quot;Harris games last 14d&quot;, &quot;shap&quot;: 0.1446, &quot;pp&quot;: 2.9}, {&quot;label&quot;: &quot;Harris surface pct&quot;, &quot;shap&quot;: 0.1426, &quot;pp&quot;: 2.8}, {&quot;label&quot;: &quot;Faria games last 14d&quot;, &quot;shap&quot;: 0.1382, &quot;pp&quot;: 2.7}]}"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction? ›</button>
+    </div>
+  </div>
+</div>
+<div class="tourn-group">
+  <div class="tourn-header">
+    <span class="tourn-name">Madrid, Spain</span>
+    <span class="surface-label surface-Clay">clay</span>
+  </div>
+  <div class="match-grid">
+    <div class="match-card">
+    <div class="match-round">Round of 64</div>
+      <div class="match-players">
+        <div class="player-block">
+          <span class="player-name">Joao Fonseca</span>
+          <span class="player-prob">76.1%</span>
+        </div>
+        <span class="vs-label">vs</span>
+        <div class="player-block right">
+          <span class="player-name">Marin Čilić</span>
+          <span class="player-prob">23.9%</span>
+        </div>
+      </div>
+      <div class="prob-bar">
+        <div class="prob-p1-fill" style="width:76.1%"></div>
+        <div class="prob-p2-fill" style="width:23.9%"></div>
+      </div>
+      <button class="shap-trigger" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 76.1, &quot;p1&quot;: &quot;Joao Fonseca&quot;, &quot;p2&quot;: &quot;Marin \u010cili\u0107&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Fonseca rest days&quot;, &quot;shap&quot;: -0.7717, &quot;pp&quot;: -14.0}, {&quot;label&quot;: &quot;\u010cili\u0107 rest days&quot;, &quot;shap&quot;: 0.5901, &quot;pp&quot;: 10.7}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.4823, &quot;pp&quot;: 8.8}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.2403, &quot;pp&quot;: 4.4}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.1717, &quot;pp&quot;: 3.1}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.1696, &quot;pp&quot;: 3.1}, {&quot;label&quot;: &quot;Fonseca games last 14d&quot;, &quot;shap&quot;: 0.1248, &quot;pp&quot;: 2.3}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: -0.1169, &quot;pp&quot;: -2.1}]}"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction? ›</button>
+    </div>
+    <div class="match-card">
+    <div class="match-round">Round of 32</div>
+      <div class="match-players">
+        <div class="player-block">
+          <span class="player-name">Vit Kopřiva</span>
+          <span class="player-prob">40.2%</span>
+        </div>
+        <span class="vs-label">vs</span>
+        <div class="player-block right">
+          <span class="player-name">Arthur Rinderknech</span>
+          <span class="player-prob">59.9%</span>
+        </div>
+      </div>
+      <div class="prob-bar">
+        <div class="prob-p1-fill" style="width:40.2%"></div>
+        <div class="prob-p2-fill" style="width:59.9%"></div>
+      </div>
+      <button class="shap-trigger" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 40.2, &quot;p1&quot;: &quot;Vit Kop\u0159iva&quot;, &quot;p2&quot;: &quot;Arthur Rinderknech&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Rinderknech rest days&quot;, &quot;shap&quot;: 0.7436, &quot;pp&quot;: 17.9}, {&quot;label&quot;: &quot;Kop\u0159iva rest days&quot;, &quot;shap&quot;: -0.6243, &quot;pp&quot;: -15.0}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.4377, &quot;pp&quot;: -10.5}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.2608, &quot;pp&quot;: -6.3}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.108, &quot;pp&quot;: 2.6}, {&quot;label&quot;: &quot;Rinderknech surface pct&quot;, &quot;shap&quot;: 0.0953, &quot;pp&quot;: 2.3}, {&quot;label&quot;: &quot;Rinderknech age&quot;, &quot;shap&quot;: 0.0533, &quot;pp&quot;: 1.3}, {&quot;label&quot;: &quot;Rinderknech games last 14d&quot;, &quot;shap&quot;: -0.053, &quot;pp&quot;: -1.3}]}"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction? ›</button>
+    </div>
+  </div>
+</div>
+<div class="tourn-group">
+  <div class="tourn-header">
+    <span class="tourn-name">Rome, Italy, Qualifying</span>
+    <span class="surface-label surface-Clay">clay</span>
+  </div>
+  <div class="match-grid">
+    <div class="match-card">
+    <div class="match-round">Qualification Final</div>
+      <div class="match-players">
+        <div class="player-block">
+          <span class="player-name">Pablo Carreño Busta</span>
+          <span class="player-prob">47.2%</span>
+        </div>
+        <span class="vs-label">vs</span>
+        <div class="player-block right">
+          <span class="player-name">Stan Wawrinka</span>
+          <span class="player-prob">52.8%</span>
+        </div>
+      </div>
+      <div class="prob-bar">
+        <div class="prob-p1-fill" style="width:47.2%"></div>
+        <div class="prob-p2-fill" style="width:52.8%"></div>
+      </div>
+      <button class="shap-trigger" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 49.9, &quot;final_prob&quot;: 47.2, &quot;p1&quot;: &quot;Pablo Carre\u00f1o Busta&quot;, &quot;p2&quot;: &quot;Stan Wawrinka&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Busta rest days&quot;, &quot;shap&quot;: -0.7469, &quot;pp&quot;: -18.6}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.5879, &quot;pp&quot;: 14.7}, {&quot;label&quot;: &quot;Wawrinka rest days&quot;, &quot;shap&quot;: 0.5681, &quot;pp&quot;: 14.2}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.3548, &quot;pp&quot;: -8.8}, {&quot;label&quot;: &quot;Wawrinka games last 14d&quot;, &quot;shap&quot;: 0.1932, &quot;pp&quot;: 4.8}, {&quot;label&quot;: &quot;Wawrinka total matches&quot;, &quot;shap&quot;: -0.1622, &quot;pp&quot;: -4.0}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.11, &quot;pp&quot;: -2.7}, {&quot;label&quot;: &quot;Busta surface pct&quot;, &quot;shap&quot;: -0.0975, &quot;pp&quot;: -2.4}]}"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction? ›</button>
+    </div>
+  </div>
+</div>
+<div class="tourn-group">
+  <div class="tourn-header">
+    <span class="tourn-name">ATP Rome Masters, Italy</span>
+    <span class="surface-label surface-Clay">clay</span>
+  </div>
+  <div class="match-grid">
+    <div class="match-card">
+    <div class="match-round">Round of 64</div>
+      <div class="match-players">
+        <div class="player-block">
+          <span class="player-name">Tomaš Machač</span>
+          <span class="player-prob">17.1%</span>
+        </div>
+        <span class="vs-label">vs</span>
+        <div class="player-block right">
+          <span class="player-name">Daniil Medvedev</span>
+          <span class="player-prob">82.9%</span>
+        </div>
+      </div>
+      <div class="prob-bar">
+        <div class="prob-p1-fill" style="width:17.1%"></div>
+        <div class="prob-p2-fill" style="width:82.9%"></div>
+      </div>
+      <button class="shap-trigger" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 17.1, &quot;p1&quot;: &quot;Toma\u0161 Macha\u010d&quot;, &quot;p2&quot;: &quot;Daniil Medvedev&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Macha\u010d rest days&quot;, &quot;shap&quot;: -0.4607, &quot;pp&quot;: -6.5}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.4257, &quot;pp&quot;: -6.0}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.292, &quot;pp&quot;: -4.1}, {&quot;label&quot;: &quot;Medvedev total matches&quot;, &quot;shap&quot;: -0.205, &quot;pp&quot;: -2.9}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.1641, &quot;pp&quot;: -2.3}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.1573, &quot;pp&quot;: 2.2}, {&quot;label&quot;: &quot;Macha\u010d surface pct&quot;, &quot;shap&quot;: -0.1368, &quot;pp&quot;: -1.9}, {&quot;label&quot;: &quot;Medvedev surface pct&quot;, &quot;shap&quot;: 0.0935, &quot;pp&quot;: 1.3}]}"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction? ›</button>
+    </div>
+    <div class="match-card">
+    <div class="match-round">Round of 16</div>
+      <div class="match-players">
+        <div class="player-block">
+          <span class="player-name">Andrey Rublev</span>
+          <span class="player-prob">71.2%</span>
+        </div>
+        <span class="vs-label">vs</span>
+        <div class="player-block right">
+          <span class="player-name">Nikoloz Basilashvili</span>
+          <span class="player-prob">28.8%</span>
+        </div>
+      </div>
+      <div class="prob-bar">
+        <div class="prob-p1-fill" style="width:71.2%"></div>
+        <div class="prob-p2-fill" style="width:28.8%"></div>
+      </div>
+      <button class="shap-trigger" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 71.2, &quot;p1&quot;: &quot;Andrey Rublev&quot;, &quot;p2&quot;: &quot;Nikoloz Basilashvili&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Basilashvili rest days&quot;, &quot;shap&quot;: 0.7294, &quot;pp&quot;: 14.9}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: -0.5621, &quot;pp&quot;: -11.5}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.5014, &quot;pp&quot;: 10.3}, {&quot;label&quot;: &quot;Rublev rest days&quot;, &quot;shap&quot;: -0.4295, &quot;pp&quot;: -8.8}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.425, &quot;pp&quot;: 8.7}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: 0.1532, &quot;pp&quot;: 3.1}, {&quot;label&quot;: &quot;Basilashvili surface pct&quot;, &quot;shap&quot;: 0.1218, &quot;pp&quot;: 2.5}, {&quot;label&quot;: &quot;Rublev surface pct&quot;, &quot;shap&quot;: -0.103, &quot;pp&quot;: -2.1}]}"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction? ›</button>
+    </div>
+    <div class="match-card">
+    <div class="match-round">Round of 16</div>
+      <div class="match-players">
+        <div class="player-block">
+          <span class="player-name">Hamad Medjedović</span>
+          <span class="player-prob">65.2%</span>
+        </div>
+        <span class="vs-label">vs</span>
+        <div class="player-block right">
+          <span class="player-name">Martin Landaluce</span>
+          <span class="player-prob">34.8%</span>
+        </div>
+      </div>
+      <div class="prob-bar">
+        <div class="prob-p1-fill" style="width:65.2%"></div>
+        <div class="prob-p2-fill" style="width:34.8%"></div>
+      </div>
+      <button class="shap-trigger" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 65.2, &quot;p1&quot;: &quot;Hamad Medjedovi\u0107&quot;, &quot;p2&quot;: &quot;Martin Landaluce&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Medjedovi\u0107 rest days&quot;, &quot;shap&quot;: -0.5904, &quot;pp&quot;: -13.4}, {&quot;label&quot;: &quot;Landaluce rest days&quot;, &quot;shap&quot;: 0.5901, &quot;pp&quot;: 13.4}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.4702, &quot;pp&quot;: 10.7}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.4426, &quot;pp&quot;: 10.0}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.219, &quot;pp&quot;: 5.0}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: -0.1621, &quot;pp&quot;: -3.7}, {&quot;label&quot;: &quot;Medjedovi\u0107 games last 14d&quot;, &quot;shap&quot;: -0.1341, &quot;pp&quot;: -3.0}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: -0.1334, &quot;pp&quot;: -3.0}]}"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction? ›</button>
+    </div>
+    <div class="match-card">
+    <div class="match-round">Round of 16</div>
+      <div class="match-players">
+        <div class="player-block">
+          <span class="player-name">Thiago Agustin Tirante</span>
+          <span class="player-prob">32.6%</span>
+        </div>
+        <span class="vs-label">vs</span>
+        <div class="player-block right">
+          <span class="player-name">Daniil Medvedev</span>
+          <span class="player-prob">67.4%</span>
+        </div>
+      </div>
+      <div class="prob-bar">
+        <div class="prob-p1-fill" style="width:32.6%"></div>
+        <div class="prob-p2-fill" style="width:67.4%"></div>
+      </div>
+      <button class="shap-trigger" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 32.6, &quot;p1&quot;: &quot;Thiago Agustin Tirante&quot;, &quot;p2&quot;: &quot;Daniil Medvedev&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Tirante rest days&quot;, &quot;shap&quot;: -0.7452, &quot;pp&quot;: -16.4}, {&quot;label&quot;: &quot;Rest days advantage&quot;, &quot;shap&quot;: 0.6807, &quot;pp&quot;: 14.9}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: -0.4665, &quot;pp&quot;: -10.2}, {&quot;label&quot;: &quot;Medvedev rest days&quot;, &quot;shap&quot;: 0.4432, &quot;pp&quot;: 9.7}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.2358, &quot;pp&quot;: -5.2}, {&quot;label&quot;: &quot;Medvedev total matches&quot;, &quot;shap&quot;: -0.1611, &quot;pp&quot;: -3.5}, {&quot;label&quot;: &quot;Medvedev surface pct&quot;, &quot;shap&quot;: 0.1074, &quot;pp&quot;: 2.4}, {&quot;label&quot;: &quot;Medvedev games last 14d&quot;, &quot;shap&quot;: -0.0975, &quot;pp&quot;: -2.1}]}"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction? ›</button>
+    </div>
+    <div class="match-card">
+    <div class="match-round">Quarterfinals</div>
+      <div class="match-players">
+        <div class="player-block">
+          <span class="player-name">Casper Ruud</span>
+          <span class="player-prob">62.0%</span>
+        </div>
+        <span class="vs-label">vs</span>
+        <div class="player-block right">
+          <span class="player-name">Karen Khachanov</span>
+          <span class="player-prob">38.0%</span>
+        </div>
+      </div>
+      <div class="prob-bar">
+        <div class="prob-p1-fill" style="width:62.0%"></div>
+        <div class="prob-p2-fill" style="width:38.0%"></div>
+      </div>
+      <button class="shap-trigger" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 62.0, &quot;p1&quot;: &quot;Casper Ruud&quot;, &quot;p2&quot;: &quot;Karen Khachanov&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Ruud rest days&quot;, &quot;shap&quot;: -0.4472, &quot;pp&quot;: -10.5}, {&quot;label&quot;: &quot;Khachanov rest days&quot;, &quot;shap&quot;: 0.385, &quot;pp&quot;: 9.1}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: 0.3146, &quot;pp&quot;: 7.4}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: -0.2101, &quot;pp&quot;: -5.0}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.1678, &quot;pp&quot;: 4.0}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.1475, &quot;pp&quot;: 3.5}, {&quot;label&quot;: &quot;Khachanov surface pct&quot;, &quot;shap&quot;: 0.1443, &quot;pp&quot;: 3.4}, {&quot;label&quot;: &quot;Ruud games last 14d&quot;, &quot;shap&quot;: 0.1041, &quot;pp&quot;: 2.5}]}"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction? ›</button>
+    </div>
+    <div class="match-card">
+    <div class="match-round">Quarterfinals</div>
+      <div class="match-players">
+        <div class="player-block">
+          <span class="player-name">Rafael Jodar</span>
+          <span class="player-prob">52.6%</span>
+        </div>
+        <span class="vs-label">vs</span>
+        <div class="player-block right">
+          <span class="player-name">Luciano Darderi</span>
+          <span class="player-prob">47.4%</span>
+        </div>
+      </div>
+      <div class="prob-bar">
+        <div class="prob-p1-fill" style="width:52.6%"></div>
+        <div class="prob-p2-fill" style="width:47.4%"></div>
+      </div>
+      <button class="shap-trigger" onclick="openShapModal(this)" data-shap="{&quot;base_prob&quot;: 50.0, &quot;final_prob&quot;: 52.6, &quot;p1&quot;: &quot;Rafael Jodar&quot;, &quot;p2&quot;: &quot;Luciano Darderi&quot;, &quot;contributors&quot;: [{&quot;label&quot;: &quot;Jodar rest days&quot;, &quot;shap&quot;: -0.4289, &quot;pp&quot;: -10.7}, {&quot;label&quot;: &quot;Darderi rest days&quot;, &quot;shap&quot;: 0.4082, &quot;pp&quot;: 10.2}, {&quot;label&quot;: &quot;Overall ELO advantage&quot;, &quot;shap&quot;: 0.175, &quot;pp&quot;: 4.4}, {&quot;label&quot;: &quot;Clay ELO advantage&quot;, &quot;shap&quot;: -0.1596, &quot;pp&quot;: -4.0}, {&quot;label&quot;: &quot;Clay form \u2014 last 10&quot;, &quot;shap&quot;: -0.1567, &quot;pp&quot;: -3.9}, {&quot;label&quot;: &quot;Sets played (last 14 days)&quot;, &quot;shap&quot;: 0.1305, &quot;pp&quot;: 3.3}, {&quot;label&quot;: &quot;Jodar games last 14d&quot;, &quot;shap&quot;: 0.0993, &quot;pp&quot;: 2.5}, {&quot;label&quot;: &quot;Jodar wr surf 10&quot;, &quot;shap&quot;: -0.0706, &quot;pp&quot;: -1.8}]}"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor"/><path d="M6 5.5v3M6 3.5h.01" stroke="currentColor" stroke-linecap="round"/></svg>Why this prediction? ›</button>
+    </div>
+  </div>
+</div>
 <div class="tourn-group">
   <div class="tourn-header">
     <span class="tourn-name">Roland Garros</span>
@@ -6233,197 +6456,6 @@
     Results are recorded after matches complete. Run <code>generate_dashboard.py</code> daily to update.
     27 predictions awaiting results.
   </p>
-
-  <p class="section-label" style="margin-top:48px">Kalshi Edges<span style="color:var(--muted);font-size:11px;font-weight:300"> — 32 markets scanned · 2026-05-29 00:54 UTC</span></p>
-  <div class="history-wrap">
-    <p class="history-note" style="padding:12px 14px">No edges above 5pp threshold. 32 market(s) scanned.</p>
-    <p class="history-note" style="margin-top:10px">No Kalshi market found for: Jannik Sinner vs Carlos Alcaraz, Novak Djokovic vs Daniil Medvedev, Alexander Zverev vs Stefanos Tsitsipas, Holger Rune vs Andrey Rublev, Carlos Alcaraz vs Lorenzo Musetti, Jannik Sinner vs Taylor Fritz (+2 more)</p>
-  </div>
-
-  <p class="section-label" style="margin-top:48px">Bankroll &amp; Bets</p>
-  <div class="history-wrap">
-    <div style="display:flex;gap:2px;flex-wrap:wrap;margin-bottom:2px">
-      <div style="flex:1;min-width:120px;background:var(--card);border:1px solid var(--border);
-                  border-radius:6px 0 0 6px;padding:12px 16px">
-        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;
-                    letter-spacing:.06em;margin-bottom:4px">Bankroll</div>
-        <div style="font-size:18px;font-weight:500">$9,316.52</div>
-      </div>
-      <div style="flex:1;min-width:120px;background:var(--card);border:1px solid var(--border);
-                  padding:12px 16px">
-        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;
-                    letter-spacing:.06em;margin-bottom:4px">Total P&amp;L</div>
-        <div style="font-size:18px;font-weight:500;color:var(--accent)">$-683.48</div>
-      </div>
-      <div style="flex:1;min-width:120px;background:var(--card);border:1px solid var(--border);
-                  padding:12px 16px">
-        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;
-                    letter-spacing:.06em;margin-bottom:4px">Win Rate</div>
-        <div style="font-size:18px;font-weight:500">44%
-          <span style="font-size:12px;color:var(--muted);font-weight:300">
-            7W/9L</span></div>
-      </div>
-      <div style="flex:1;min-width:120px;background:var(--card);border:1px solid var(--border);
-                  border-radius:0 6px 6px 0;padding:12px 16px">
-        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;
-                    letter-spacing:.06em;margin-bottom:4px">Open Bets</div>
-        <div style="font-size:18px;font-weight:500">0</div>
-      </div>
-    </div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;padding:16px;margin-top:2px">
-      <svg viewBox="0 0 640 180" xmlns="http://www.w3.org/2000/svg"
-     style="width:100%;height:auto;display:block;overflow:visible">
-  <line x1="72" y1="144" x2="616" y2="144" stroke="#3d3830" stroke-width="1"/><line x1="72" y1="80" x2="616" y2="80" stroke="#3d3830" stroke-width="1"/><line x1="72" y1="16" x2="616" y2="16" stroke="#3d3830" stroke-width="1"/>
-  <polyline points="72.0,21.8 106.0,96.5 140.0,56.5 174.0,78.7 208.0,94.0 242.0,138.2 276.0,105.2 310.0,122.3 344.0,110.8 378.0,120.0 412.0,111.1 446.0,105.2 480.0,125.3 514.0,118.2 548.0,73.9 582.0,122.7 616.0,135.2" fill="none" stroke="#c4956a" stroke-width="2.5"
-            stroke-linejoin="round" stroke-linecap="round"/>
-  <text x="66" y="144" text-anchor="end" dominant-baseline="middle" fill="#9a8f82" font-size="10">$9,263</text><text x="66" y="80" text-anchor="end" dominant-baseline="middle" fill="#9a8f82" font-size="10">$9,649</text><text x="66" y="16" text-anchor="end" dominant-baseline="middle" fill="#9a8f82" font-size="10">$10,035</text>
-  <text x="72" y="176" text-anchor="middle" fill="#9a8f82" font-size="10">4/9 18:02</text><text x="616" y="176" text-anchor="middle" fill="#9a8f82" font-size="10">4/15 00:02</text>
-</svg>
-    </div>
-  </div>
-  <p class="section-label" style="margin-top:24px;font-size:12px;color:var(--muted)">Open Bets</p>
-  <div class="history-wrap">
-    <p class="history-note" style="padding:12px 14px">No open bets.</p>
-  </div>
-  <p class="section-label" style="margin-top:24px;font-size:12px;color:var(--muted)">Settled Bets</p>
-  <div class="history-wrap">
-    <table>
-      <thead><tr>
-        <th>Match</th><th>Side</th><th>Result</th>
-        <th>Bet $</th><th>P&amp;L</th><th>Running Bankroll</th>
-      </tr></thead>
-      <tbody>
-    <tr style="background:var(--surface)">
-      <td>Andrey Rublev vs Mariano Navone</td>
-      <td><span class="kalshi-no">NO</span></td>
-      <td style="color:var(--accent);font-weight:500">LOST</td>
-      <td style="font-variant-numeric:tabular-nums">$294.12</td>
-      <td style="color:var(--accent);font-variant-numeric:tabular-nums">$-294.12</td>
-      <td style="font-variant-numeric:tabular-nums">$9,391.74</td>
-    </tr>
-    <tr style="">
-      <td>Camilo Ugo Carabelli vs Karen Khachanov</td>
-      <td><span class="kalshi-yes">YES</span></td>
-      <td style="color:var(--accent2);font-weight:500">WON</td>
-      <td style="font-variant-numeric:tabular-nums">$161.65</td>
-      <td style="color:var(--accent2);font-variant-numeric:tabular-nums">$+267.26</td>
-      <td style="font-variant-numeric:tabular-nums">$9,685.86</td>
-    </tr>
-    <tr style="background:var(--surface)">
-      <td>Adrian Mannarino vs Nuno Borges</td>
-      <td><span class="kalshi-yes">YES</span></td>
-      <td style="color:var(--accent);font-weight:500">LOST</td>
-      <td style="font-variant-numeric:tabular-nums">$120.83</td>
-      <td style="color:var(--accent);font-variant-numeric:tabular-nums">$-120.83</td>
-      <td style="font-variant-numeric:tabular-nums">$9,376.29</td>
-    </tr>
-    <tr style="">
-      <td>Tomas Martin Etcheverry vs Jack Draper</td>
-      <td><span class="kalshi-yes">YES</span></td>
-      <td style="color:var(--accent2);font-weight:500">WON</td>
-      <td style="font-variant-numeric:tabular-nums">$168.17</td>
-      <td style="color:var(--accent2);font-variant-numeric:tabular-nums">$+199.05</td>
-      <td style="font-variant-numeric:tabular-nums">$9,497.36</td>
-    </tr>
-    <tr style="background:var(--surface)">
-      <td>Ben Shelton vs Emilio Nava</td>
-      <td><span class="kalshi-no">NO</span></td>
-      <td style="color:var(--accent);font-weight:500">LOST</td>
-      <td style="font-variant-numeric:tabular-nums">$103.43</td>
-      <td style="color:var(--accent);font-variant-numeric:tabular-nums">$-103.43</td>
-      <td style="font-variant-numeric:tabular-nums">$9,393.93</td>
-    </tr>
-    <tr style="">
-      <td>Arthur Fils vs Terence Atmane</td>
-      <td><span class="kalshi-no">NO</span></td>
-      <td style="color:var(--accent);font-weight:500">LOST</td>
-      <td style="font-variant-numeric:tabular-nums">$75.22</td>
-      <td style="color:var(--accent);font-variant-numeric:tabular-nums">$-75.22</td>
-      <td style="font-variant-numeric:tabular-nums">$9,316.52</td>
-    </tr>
-    <tr style="background:var(--surface)">
-      <td>Botic Van de Zandschulp vs Marc-Andrea Huesler</td>
-      <td><span class="kalshi-yes">YES</span></td>
-      <td style="color:var(--accent2);font-weight:500">WON</td>
-      <td style="font-variant-numeric:tabular-nums">$201.49</td>
-      <td style="color:var(--accent2);font-variant-numeric:tabular-nums">$+69.31</td>
-      <td style="font-variant-numeric:tabular-nums">$9,463.24</td>
-    </tr>
-    <tr style="">
-      <td>Stan Wawrinka vs Cameron Norrie</td>
-      <td><span class="kalshi-yes">YES</span></td>
-      <td style="color:var(--accent);font-weight:500">LOST</td>
-      <td style="font-variant-numeric:tabular-nums">$55.00</td>
-      <td style="color:var(--accent);font-variant-numeric:tabular-nums">$-55.00</td>
-      <td style="font-variant-numeric:tabular-nums">$9,408.24</td>
-    </tr>
-    <tr style="background:var(--surface)">
-      <td>Corentin Moutet vs Ignacio Buse</td>
-      <td><span class="kalshi-yes">YES</span></td>
-      <td style="color:var(--accent2);font-weight:500">WON</td>
-      <td style="font-variant-numeric:tabular-nums">$102.39</td>
-      <td style="color:var(--accent2);font-variant-numeric:tabular-nums">$+53.56</td>
-      <td style="font-variant-numeric:tabular-nums">$9,461.80</td>
-    </tr>
-    <tr style="">
-      <td>Jaume Munar vs Rafael Jodar</td>
-      <td><span class="kalshi-no">NO</span></td>
-      <td style="color:var(--accent2);font-weight:500">WON</td>
-      <td style="font-variant-numeric:tabular-nums">$96.67</td>
-      <td style="color:var(--accent2);font-variant-numeric:tabular-nums">$+42.31</td>
-      <td style="font-variant-numeric:tabular-nums">$9,418.60</td>
-    </tr>
-    <tr style="background:var(--surface)">
-      <td>Vitaliy Sachko vs Gabriel Diallo</td>
-      <td><span class="kalshi-no">NO</span></td>
-      <td style="color:var(--accent2);font-weight:500">WON</td>
-      <td style="font-variant-numeric:tabular-nums">$56.97</td>
-      <td style="color:var(--accent2);font-variant-numeric:tabular-nums">$+35.32</td>
-      <td style="font-variant-numeric:tabular-nums">$9,497.12</td>
-    </tr>
-    <tr style="">
-      <td>Valentin Vacherot vs Alex de Minaur</td>
-      <td><span class="kalshi-no">NO</span></td>
-      <td style="color:var(--accent);font-weight:500">LOST</td>
-      <td style="font-variant-numeric:tabular-nums">$266.14</td>
-      <td style="color:var(--accent);font-variant-numeric:tabular-nums">$-266.14</td>
-      <td style="font-variant-numeric:tabular-nums">$9,298.31</td>
-    </tr>
-    <tr style="background:var(--surface)">
-      <td>Alexander Bublik vs Carlos Alcaraz</td>
-      <td><span class="kalshi-yes">YES</span></td>
-      <td style="color:var(--accent);font-weight:500">LOST</td>
-      <td style="font-variant-numeric:tabular-nums">$92.49</td>
-      <td style="color:var(--accent);font-variant-numeric:tabular-nums">$-92.49</td>
-      <td style="font-variant-numeric:tabular-nums">$9,564.45</td>
-    </tr>
-    <tr style="">
-      <td>Valentin Vacherot vs Hubert Hurkacz</td>
-      <td><span class="kalshi-no">NO</span></td>
-      <td style="color:var(--accent);font-weight:500">LOST</td>
-      <td style="font-variant-numeric:tabular-nums">$450.30</td>
-      <td style="color:var(--accent);font-variant-numeric:tabular-nums">$-450.30</td>
-      <td style="font-variant-numeric:tabular-nums">$9,549.70</td>
-    </tr>
-    <tr style="background:var(--surface)">
-      <td>Alexander Zverev vs Joao Fonseca</td>
-      <td><span class="kalshi-yes">YES</span></td>
-      <td style="color:var(--accent2);font-weight:500">WON</td>
-      <td style="font-variant-numeric:tabular-nums">$388.53</td>
-      <td style="color:var(--accent2);font-variant-numeric:tabular-nums">$+240.89</td>
-      <td style="font-variant-numeric:tabular-nums">$9,790.59</td>
-    </tr>
-    <tr style="">
-      <td>Jannik Sinner vs Felix Auger-Aliassime</td>
-      <td><span class="kalshi-no">NO</span></td>
-      <td style="color:var(--accent);font-weight:500">LOST</td>
-      <td style="font-variant-numeric:tabular-nums">$133.65</td>
-      <td style="color:var(--accent);font-variant-numeric:tabular-nums">$-133.65</td>
-      <td style="font-variant-numeric:tabular-nums">$9,656.94</td>
-    </tr>
-      </tbody>
-    </table>
-  </div>
 
   <footer>
     Data: JeffSackmann/tennis_atp &nbsp;·&nbsp; Model: XGBoost 2024 holdout LL=0.402 Acc=78.7%
