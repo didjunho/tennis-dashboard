@@ -279,6 +279,60 @@
     padding-left: 12px;
     line-height: 1.6;
   }
+  /* History controls (search + pagination) */
+  .history-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .history-search {
+    flex: 1;
+    min-width: 180px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 300;
+    padding: 8px 12px;
+    transition: border-color 0.15s;
+  }
+  .history-search::placeholder { color: var(--muted); opacity: 0.7; }
+  .history-search:focus { outline: none; border-color: var(--accent); }
+  .history-search::-webkit-search-cancel-button { filter: invert(0.6); }
+  .history-pager {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    justify-content: flex-end;
+    font-size: 11px;
+  }
+  .pager-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    padding: 5px 12px;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .pager-btn:not(:disabled):hover { border-color: var(--accent); color: var(--accent); }
+  .pager-btn:disabled { opacity: 0.35; cursor: default; }
+  .pager-info { color: var(--muted); font-weight: 300; min-width: 140px; text-align: center; }
+  .history-wrap.paginated { max-height: 70vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  /* No-JS fallback: hide controls, cap visible rows */
+  .no-js .history-controls,
+  .no-js .history-pager      { display: none; }
+  .no-js .history-wrap tbody tr:nth-child(n+11) { display: none; }
 
   /* ── Footer ── */
   footer {
@@ -429,7 +483,7 @@
   <header class="site-header">
     <div class="site-header-left">
       <h1>ATP Tennis Predictions</h1>
-      <p class="subtitle">XGBoost · 126 features · May 28, 2026 · Generated 2026-05-29 01:28 UTC</p>
+      <p class="subtitle">XGBoost · 126 features · May 28, 2026 · Generated 2026-05-29 01:40 UTC</p>
     </div>
     <a class="report-link" href="model_report.pdf" target="_blank">Model Report ↗</a>
   </header>
@@ -770,7 +824,12 @@
   </div>
 
   <p class="section-label" style="margin-top:48px">Prediction History</p>
-  <div class="history-wrap">
+  <div class="history-controls">
+    <input type="search" class="history-search" id="hist-search"
+           placeholder="Filter by player or tournament…"
+           oninput="filterHistory()" autocomplete="off">
+  </div>
+  <div class="history-wrap paginated" id="history-wrap">
     <table>
       <thead>
         <tr>
@@ -780,7 +839,7 @@
           <th>Winner</th><th>Result</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="hist-tbody">
   <tr>
     <td style="font-weight:300;color:var(--muted)">2026-05-30</td>
     <td>Brandon Nakashima</td>
@@ -5107,6 +5166,13 @@
       </tbody>
     </table>
   </div>
+  <div class="history-pager">
+    <button class="pager-btn" id="hist-prev" type="button"
+            onclick="historyPage(-1)">‹ Prev</button>
+    <span class="pager-info" id="hist-info">Page 1</span>
+    <button class="pager-btn" id="hist-next" type="button"
+            onclick="historyPage(1)">Next ›</button>
+  </div>
   <p class="history-note">
     Results are recorded after matches complete. Run <code>generate_dashboard.py</code> daily to update.
     27 predictions awaiting results.
@@ -5336,6 +5402,64 @@ function toggleDoubles(btn) {
   var open = el.classList.toggle('open');
   btn.querySelector('.toggle-icon').classList.toggle('open', open);
 }
+
+/* ── Prediction history pager (search + 10-per-page) ────────────────────── */
+var _HIST_PAGE_SIZE = 10;
+var _histState = { rows: [], filtered: [], page: 0, ready: false };
+
+function _histRender() {
+  if (!_histState.ready) return;
+  var total = _histState.filtered.length;
+  var pages = Math.max(1, Math.ceil(total / _HIST_PAGE_SIZE));
+  if (_histState.page >= pages) _histState.page = pages - 1;
+  if (_histState.page < 0)      _histState.page = 0;
+  /* Hide everything, then reveal only the current page's rows */
+  for (var i = 0; i < _histState.rows.length; i++) {
+    _histState.rows[i].style.display = 'none';
+  }
+  var start = _histState.page * _HIST_PAGE_SIZE;
+  var slice = _histState.filtered.slice(start, start + _HIST_PAGE_SIZE);
+  for (var j = 0; j < slice.length; j++) slice[j].style.display = '';
+  /* Update pager UI */
+  var info = document.getElementById('hist-info');
+  var prev = document.getElementById('hist-prev');
+  var next = document.getElementById('hist-next');
+  if (info) {
+    if (total === 0) info.textContent = 'No matches';
+    else             info.textContent = 'Page ' + (_histState.page + 1) + ' of ' + pages
+                                       + ' · ' + total + ' record' + (total === 1 ? '' : 's');
+  }
+  if (prev) prev.disabled = _histState.page === 0;
+  if (next) next.disabled = _histState.page >= pages - 1;
+}
+
+function historyPage(delta) {
+  _histState.page += delta;
+  _histRender();
+}
+
+function filterHistory() {
+  var input = document.getElementById('hist-search');
+  var q = input ? input.value.toLowerCase().trim() : '';
+  _histState.page = 0;
+  if (!q) {
+    _histState.filtered = _histState.rows.slice();
+  } else {
+    _histState.filtered = _histState.rows.filter(function (row) {
+      return row.textContent.toLowerCase().indexOf(q) !== -1;
+    });
+  }
+  _histRender();
+}
+
+function initHistoryPager() {
+  var tbody = document.getElementById('hist-tbody');
+  if (!tbody) return;
+  _histState.rows     = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+  _histState.filtered = _histState.rows.slice();
+  _histState.ready    = true;
+  _histRender();
+}
 var _shapOpenTime = 0;
 function openShapModal(el) {
   _shapOpenTime = Date.now();
@@ -5397,6 +5521,8 @@ function closeShap() {
   document.getElementById('shap-overlay').classList.remove('open');
 }
 
+/* Bottom-of-body init: the table above is fully parsed by the time this runs */
+initHistoryPager();
 </script>
 </body>
 </html>
